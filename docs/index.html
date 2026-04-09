@@ -11,20 +11,25 @@
 </head>
 <body>
 
-    <!-- ── API KEY MODAL ── -->
-    <div class="modal-overlay" id="keyModal">
+    <!-- ── API KEY MODAL (hidden by default) ── -->
+    <div class="modal-overlay" id="keyModal" style="display:none;">
         <div class="modal-box">
-            <div class="mae-title" style="margin-bottom:8px;">MAE</div>
-            <div class="mae-subtitle" style="margin-bottom:18px;">MODULAR ADAPTIVE ENTITY — v1.0</div>
+            <div class="mae-title" style="margin-bottom:8px;">CONNECT AI</div>
+            <div class="mae-subtitle" style="margin-bottom:18px;">OPTIONAL — FULL CLAUDE INTELLIGENCE</div>
             <p style="color:var(--text-secondary);font-size:0.75rem;margin-bottom:14px;">
-                Enter your Anthropic API key to connect. Stored locally in your browser only.
+                Enter your Anthropic API key for live Claude responses. Stored in your browser only. Demo mode works without a key.
             </p>
             <input type="password" class="console-input" id="apiKeyInput"
                    placeholder="sk-ant-..." autocomplete="off" spellcheck="false"
                    style="width:100%;margin-bottom:10px;border:1px solid var(--border);border-radius:3px;">
-            <button class="submit-btn" onclick="saveApiKey()" style="width:100%;padding:10px;text-align:center;">
-                CONNECT
-            </button>
+            <div style="display:flex;gap:8px;">
+                <button class="submit-btn" onclick="saveApiKey()" style="flex:1;padding:10px;text-align:center;">
+                    CONNECT
+                </button>
+                <button class="submit-btn" onclick="closeKeyModal()" style="flex:1;padding:10px;text-align:center;color:var(--text-muted);">
+                    CANCEL
+                </button>
+            </div>
             <p style="color:var(--text-muted);font-size:0.6rem;margin-top:10px;text-align:center;">
                 Key never leaves your browser. <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--accent);">Get a key</a>
             </p>
@@ -39,8 +44,8 @@
         </div>
         <div class="mae-status">
             <span class="status-dot" id="statusDot"></span>
-            <span class="status-label" id="statusLabel">OFFLINE</span>
-            <button class="memory-toggle" onclick="clearApiKey()" style="margin-left:12px;">DISCONNECT</button>
+            <span class="status-label" id="statusLabel">DEMO</span>
+            <button class="memory-toggle" id="connectBtn" onclick="showKeyModal()" style="margin-left:12px;">CONNECT AI</button>
         </div>
     </header>
 

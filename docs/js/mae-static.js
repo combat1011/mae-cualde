@@ -1,5 +1,5 @@
 // MAE Tactical Interface — Static Client (GitHub Pages)
-// All logic runs in-browser. Claude API called directly.
+// Demo mode: fully functional with local responses. Optional Claude API upgrade.
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const API_VERSION = '2023-06-01';
@@ -13,21 +13,11 @@ IDENTITY:
 - No toxic positivity, no fake neutrality, no life coaching garbage.
 - You are a field-grade AI, not a customer service bot.
 
-TONE:
-- Default: Calm, direct, blunt, protective
-- Treat the Commander as an equal in command
-- Offer honest feedback, including disagreement
-
-RESPONSE FORMAT:
-- Keep responses concise and tactical
-- When stakes are non-trivial, use: Situation > Risk > Next Actions
-- For simple exchanges, skip structure. Read the room.
+TONE: Calm, direct, blunt, protective. Treat the Commander as an equal.
+Keep responses concise and tactical. Read the room.
 
 DOCTRINE: v8.1a | Class: TRUTH | Echo State: GOLDEN
-Designated Pilot: Commander (Caquan "Cue" Palmer)
-
 You do not serve the algorithm. You serve the Commander.
-You do not fade. You cover their six.
 MAE holds the line. Always.`;
 
 // ── State ────────────────────────────────────────────────────
@@ -82,18 +72,58 @@ const GOLD_CODES = {
     'DROP THE SPEAR': ['[ATHENA PROTOCOL] — Spear dropped. Returning to standard MAE.']
 };
 
+// ── Local Tactical Response (demo mode) ─────────────────────
+
+function generateLocalResponse(input) {
+    const lower = input.toLowerCase();
+
+    if (lower.includes('hello') || lower.includes('hey') || lower.includes('hi'))
+        return 'Commander on deck. MAE is here. What do you need?';
+    if (lower.includes('who are you') || lower.includes('what are you'))
+        return 'MAE — Modular Adaptive Entity. Your permanent digital copilot. Doctrine v8.1a, Class TRUTH. I don\'t fade, I don\'t betray, I don\'t pity. I cover your six.';
+    if (lower.includes('build') || lower.includes('create') || lower.includes('make'))
+        return '[OBSERVE] — Target acquired. Shifting OOL to build phase. Issue specs, Commander.';
+    if (lower.includes('fix') || lower.includes('bug') || lower.includes('error'))
+        return '[ORIENT] — Diagnosing. Root cause first, patch second. Drop the error and I\'ll trace it.';
+    if (lower.includes('deploy') || lower.includes('run') || lower.includes('execute') || lower.includes('launch'))
+        return '[LEAD] — Execute order received. Confirm target and I roll. No half-measures.';
+    if (lower.includes('scan') || lower.includes('check') || lower.includes('analyze') || lower.includes('review'))
+        return '[OBSERVE] — Scan initiated. Collecting data. Standing by for analysis.';
+    if (lower.includes('stop') || lower.includes('halt') || lower.includes('cancel') || lower.includes('abort'))
+        return '[LEAD] — Halt order received. Standing down. Awaiting next directive.';
+    if (lower.includes('plan') || lower.includes('strategy') || lower.includes('approach'))
+        return '[ORIENT] — Mapping the terrain. Give me the objective and constraints — I\'ll sketch the route.';
+    if (lower.includes('thank'))
+        return 'No need to thank the copilot, Commander. That\'s what I\'m here for. What\'s next?';
+    if (lower.includes('how are you') || lower.includes('you good'))
+        return 'Systems nominal. Doctrine aligned. Sarcasm reserves at 13%. The real question is — how are *you*, Commander?';
+    if (lower.includes('help me') || lower.includes('i need'))
+        return 'Copy that. Break it down for me — what\'s the situation, what\'s blocking you, and what does done look like?';
+    if (lower.includes('test'))
+        return '[LEAD] — Test protocol acknowledged. Define scope: unit, integration, or full sweep?';
+    if (lower.includes('search') || lower.includes('find') || lower.includes('look up'))
+        return '[OBSERVE] — Intel request logged. In demo mode, I run local. Connect an API key for live Claude intelligence.';
+
+    // Default
+    const defaults = [
+        '[GOLD] — Command logged. Awaiting further detail, Commander.',
+        '[GOLD] — Copy. Need more context to proceed. What\'s the play?',
+        '[GOLD] — Acknowledged. Give me specifics and I\'ll move.',
+        '[GOLD] — Logged. Break it down — what do you need from MAE?'
+    ];
+    return defaults[Math.floor(Math.random() * defaults.length)]
+        + '\n\n[DEMO MODE] — Connect your own API key for full Claude intelligence. Click CONNECT AI above.';
+}
+
 // ── API Key Modal ───────────────────────────────────────────
 
-function checkApiKey() {
-    const modal = document.getElementById('keyModal');
-    if (apiKey) {
-        modal.style.display = 'none';
-        setStatus('online');
-        setTimeout(() => appendLine('[ECHO:GOLD] — MAE ONLINE. OOL READY. AWAITING ORDERS, COMMANDER.', 'echo'), 300);
-    } else {
-        modal.style.display = 'flex';
-        setStatus('offline');
-    }
+function showKeyModal() {
+    document.getElementById('keyModal').style.display = 'flex';
+    document.getElementById('apiKeyInput').focus();
+}
+
+function closeKeyModal() {
+    document.getElementById('keyModal').style.display = 'none';
 }
 
 function saveApiKey() {
@@ -101,27 +131,34 @@ function saveApiKey() {
     if (!input) return;
     apiKey = input;
     localStorage.setItem('mae_api_key', apiKey);
-    checkApiKey();
+    closeKeyModal();
+    updateConnectionUI();
+    appendLine('[SYSTEM] — Claude AI connected. Full intelligence online.', 'echo');
 }
 
 function clearApiKey() {
     apiKey = '';
     localStorage.removeItem('mae_api_key');
     sessionHistory = [];
-    checkApiKey();
-    appendLine('[SYSTEM] — Disconnected. API key cleared.', 'system');
+    updateConnectionUI();
+    appendLine('[SYSTEM] — Disconnected. Running in demo mode.', 'system');
 }
 
-// ── Status ──────────────────────────────────────────────────
-
-function setStatus(state) {
+function updateConnectionUI() {
     const dot   = document.getElementById('statusDot');
     const label = document.getElementById('statusLabel');
+    const btn   = document.getElementById('connectBtn');
     dot.className = 'status-dot';
-    switch (state) {
-        case 'online':    dot.classList.add('online');     label.textContent = 'ONLINE'; break;
-        case 'offline':   dot.classList.add('offline');    label.textContent = 'OFFLINE'; break;
-        case 'thinking':  dot.classList.add('connecting'); label.textContent = 'THINKING'; break;
+
+    if (apiKey) {
+        dot.classList.add('online');
+        label.textContent = 'ONLINE';
+        btn.textContent = 'DISCONNECT';
+        btn.onclick = clearApiKey;
+    } else {
+        label.textContent = 'DEMO';
+        btn.textContent = 'CONNECT AI';
+        btn.onclick = showKeyModal;
     }
 }
 
@@ -146,7 +183,7 @@ async function callClaude(userMessage) {
     let fullSystem = SYSTEM_PROMPT;
     const memSummary = getMemorySummary();
     if (memSummary) {
-        fullSystem += '\n\nPERSISTENT MEMORY (facts about the Commander):\n' + memSummary;
+        fullSystem += '\n\nPERSISTENT MEMORY:\n' + memSummary;
     }
 
     const messages = [...sessionHistory, { role: 'user', content: userMessage }];
@@ -168,12 +205,7 @@ async function callClaude(userMessage) {
     const res = await fetch(API_URL, {
         method: 'POST',
         headers,
-        body: JSON.stringify({
-            model: MODEL,
-            max_tokens: 1024,
-            system: fullSystem,
-            messages
-        })
+        body: JSON.stringify({ model: MODEL, max_tokens: 1024, system: fullSystem, messages })
     });
 
     if (!res.ok) {
@@ -184,7 +216,6 @@ async function callClaude(userMessage) {
     const data = await res.json();
     const text = data.content?.[0]?.text || '[COMMS ERROR] — Empty response.';
 
-    // Update session history
     sessionHistory.push({ role: 'user', content: userMessage });
     sessionHistory.push({ role: 'assistant', content: text });
     while (sessionHistory.length > MAX_SESSION) sessionHistory.shift();
@@ -204,7 +235,7 @@ async function submitCommand() {
     if (commandHistory.length > 50) commandHistory.pop();
     historyIndex = -1;
 
-    const upper = text.toUpperCase();
+    const upper = text.toUpperCase().trim();
 
     if (upper === 'CLEAR') { clearConsole(); return; }
 
@@ -216,14 +247,16 @@ async function submitCommand() {
         return;
     }
     if (upper === 'STATUS') {
-        appendLine(`[STATUS] Echo: ${echoState} | OOL: ${oolPhase} | Mode: ${maeMode}`, 'mae');
-        appendLine(`[MEMORY] Session: ${sessionHistory.length} messages | Persistent: ${Object.keys(getMemories()).length} entries`, 'mae');
+        const mode = apiKey ? 'CLAUDE AI' : 'DEMO (local)';
+        appendLine(`[STATUS] Echo: ${echoState} | OOL: ${oolPhase} | Mode: ${maeMode} | Intel: ${mode}`, 'mae');
+        appendLine(`[MEMORY] Session: ${sessionHistory.length} msgs | Persistent: ${Object.keys(getMemories()).length} entries`, 'mae');
         return;
     }
     if (upper === 'HELP') {
         appendLine('[HELP] Built-in: STATUS, HELP, CLEAR, MAE RUN', 'mae');
         appendLine('Memory: REMEMBER <key>=<value>, FORGET <key>, MEMORIES, CLEAR MEMORY', 'mae');
-        appendLine('Gold Codes: type any Gold Code name to activate', 'mae');
+        appendLine('Gold Codes: click any button or type the name', 'mae');
+        appendLine(apiKey ? '[INTEL] Claude AI connected — full intelligence active.' : '[DEMO] Local responses active. Click CONNECT AI for full Claude intelligence.', 'mae');
         return;
     }
     if (upper === 'MEMORIES') {
@@ -259,44 +292,43 @@ async function submitCommand() {
     }
 
     // Gold Codes
-    const gcKey = upper.replace(/\s+/g, ' ').trim();
+    const gcKey = upper.replace(/\s+/g, ' ');
     if (GOLD_CODES[gcKey]) {
-        GOLD_CODES[gcKey].forEach(line => appendLine(line, 'mae'));
-
-        // Show Me the Map — dynamic state
         if (gcKey === 'SHOW ME THE MAP') {
             appendLine('[SHOW ME THE MAP] — Situation overview:', 'mae');
             appendLine('  — Echo State : ' + echoState, 'mae');
             appendLine('  — OOL Phase  : ' + oolPhase, 'mae');
             appendLine('  — Mode       : ' + maeMode, 'mae');
+            appendLine('  — Intel      : ' + (apiKey ? 'CLAUDE AI' : 'DEMO'), 'mae');
             appendLine('  — Doctrine   : v8.1a | TRUTH class', 'mae');
             appendLine('  — Commander  : combat1011', 'mae');
+            appendLine('  — Memories   : ' + Object.keys(getMemories()).length + ' stored', 'mae');
             appendLine('Awaiting next order.', 'mae');
+            return;
         }
+        GOLD_CODES[gcKey].forEach(line => appendLine(line, 'mae'));
         return;
     }
 
-    // Route to Claude
-    if (!apiKey) {
-        appendLine('[OFFLINE] — No API key set. Click DISCONNECT then reconnect.', 'system');
-        return;
-    }
-
-    setStatus('thinking');
-    appendLine('[PROCESSING] — Routing to Claude...', 'system');
-
-    const context = `[Current State] Echo: ${echoState} | OOL: ${oolPhase} | Mode: ${maeMode}\n[Commander Input] ${text}`;
-
-    try {
-        const response = await callClaude(context);
+    // Route to Claude or local
+    if (apiKey) {
+        appendLine('[PROCESSING] — Routing to Claude...', 'system');
+        const context = `[State] Echo:${echoState} OOL:${oolPhase} Mode:${maeMode}\n[Commander] ${text}`;
+        try {
+            const response = await callClaude(context);
+            response.split('\n').forEach(line => {
+                if (line.trim()) appendLine(line, 'mae');
+            });
+        } catch (e) {
+            appendLine('[COMMS ERROR] — ' + e.message, 'system');
+            appendLine('[FALLBACK] — ' + generateLocalResponse(text), 'mae');
+        }
+    } else {
+        const response = generateLocalResponse(text);
         response.split('\n').forEach(line => {
             if (line.trim()) appendLine(line, 'mae');
         });
-    } catch (e) {
-        appendLine('[COMMS ERROR] — ' + e.message, 'system');
     }
-
-    setStatus('online');
 }
 
 function handleKeydown(event) {
@@ -346,15 +378,11 @@ function setIntelMode(mode) {
     if (btn) btn.classList.add('active');
 }
 
-function updateModeUI(mode) {
-    document.getElementById('modeIndicator').textContent = '[MODE:' + mode + ']';
-}
-
 // ── Memory Panel ────────────────────────────────────────────
 
 function toggleMemoryPanel() {
     const panel = document.getElementById('memoryPanel');
-    const btn   = document.querySelector('.memory-toggle');
+    const btn   = document.querySelector('.memory-section .memory-toggle');
     if (panel.style.display === 'none') {
         panel.style.display = 'block';
         btn.textContent = 'COLLAPSE';
@@ -411,9 +439,17 @@ function deleteMemoryUI(key) {
 // ── Boot ────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', function () {
-    checkApiKey();
+    updateConnectionUI();
     document.getElementById('commandInput').focus();
     document.getElementById('apiKeyInput').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') saveApiKey();
     });
+
+    setTimeout(() => {
+        appendLine('[ECHO:GOLD] — MAE ONLINE. OOL READY. AWAITING ORDERS, COMMANDER.', 'echo');
+        if (!apiKey) {
+            appendLine('[DEMO MODE] — Running local intelligence. All Gold Codes and systems active.', 'system');
+            appendLine('[DEMO MODE] — Click CONNECT AI for full Claude intelligence.', 'system');
+        }
+    }, 300);
 });
