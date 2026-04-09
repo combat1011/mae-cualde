@@ -1,0 +1,10 @@
+# ── MAE Cualde — Local Secrets Template ──────────────────────────────────────
+# Copy this to application-local.properties and fill in your keys.
+# application-local.properties is gitignored — never commit the real file.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Anthropic Claude API (https://console.anthropic.com)
+claude.api.key=sk-ant-...
+
+# Perplexity Sonar API (https://www.perplexity.ai/settings/api)
+perplexity.api.key=pplx-...
