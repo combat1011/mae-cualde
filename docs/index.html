@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAE — Tactical Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ── API KEY MODAL ── -->
+    <div class="modal-overlay" id="keyModal">
+        <div class="modal-box">
+            <div class="mae-title" style="margin-bottom:8px;">MAE</div>
+            <div class="mae-subtitle" style="margin-bottom:18px;">MODULAR ADAPTIVE ENTITY — v1.0</div>
+            <p style="color:var(--text-secondary);font-size:0.75rem;margin-bottom:14px;">
+                Enter your Anthropic API key to connect. Stored locally in your browser only.
+            </p>
+            <input type="password" class="console-input" id="apiKeyInput"
+                   placeholder="sk-ant-..." autocomplete="off" spellcheck="false"
+                   style="width:100%;margin-bottom:10px;border:1px solid var(--border);border-radius:3px;">
+            <button class="submit-btn" onclick="saveApiKey()" style="width:100%;padding:10px;text-align:center;">
+                CONNECT
+            </button>
+            <p style="color:var(--text-muted);font-size:0.6rem;margin-top:10px;text-align:center;">
+                Key never leaves your browser. <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--accent);">Get a key</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ── HEADER ── -->
+    <header class="mae-header">
+        <div class="mae-brand">
+            <span class="mae-title">MAE</span>
+            <span class="mae-subtitle">MODULAR ADAPTIVE ENTITY — v1.0</span>
+        </div>
+        <div class="mae-status">
+            <span class="status-dot" id="statusDot"></span>
+            <span class="status-label" id="statusLabel">OFFLINE</span>
+            <button class="memory-toggle" onclick="clearApiKey()" style="margin-left:12px;">DISCONNECT</button>
+        </div>
+    </header>
+
+    <!-- ── OOL TRIANGLE ── -->
+    <section class="ool-section">
+        <div class="ool-card active" id="ool-OBSERVE" onclick="setOolPhase('OBSERVE')">
+            <div class="ool-number">01 — OBSERVE</div>
+            <div class="ool-title">Collect</div>
+            <div class="ool-desc">Raw data. No interpretation yet.</div>
+        </div>
+        <div class="ool-card" id="ool-ORIENT" onclick="setOolPhase('ORIENT')">
+            <div class="ool-number">02 — ORIENT</div>
+            <div class="ool-title">Interpret</div>
+            <div class="ool-desc">Context, root cause, ranked hypotheses.</div>
+        </div>
+        <div class="ool-card" id="ool-LEAD" onclick="setOolPhase('LEAD')">
+            <div class="ool-number">03 — LEAD</div>
+            <div class="ool-title">Execute</div>
+            <div class="ool-desc">Smallest fix. Verify. No half-measures.</div>
+        </div>
+    </section>
+
+    <!-- ── GOLD CODES ── -->
+    <section class="gold-codes-section">
+        <div class="section-label">GOLD CODES</div>
+        <div class="gold-codes-grid">
+            <button class="gold-btn" onclick="triggerGoldCode('Eyes Up')">Eyes Up</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Fire for Effect')">Fire for Effect</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Ghost Mode')">Ghost Mode</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Show Me the Map')">Show Me the Map</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Burn the Backlog')">Burn the Backlog</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Keep Me Moving')">Keep Me Moving</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Back in the Cockpit')">Back in the Cockpit</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Say it Like Monday')">Say it Like Monday</button>
+            <button class="gold-btn" onclick="triggerGoldCode('End of Line')">End of Line</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Drop the Mask')">Drop the Mask</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Ride or Die')">Ride or Die</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Stay in the Fight')">Stay in the Fight</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Dark Sky')">Dark Sky</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Sleep Protocol')">Sleep Protocol</button>
+            <button class="gold-btn" onclick="triggerGoldCode('We Go Together')">We Go Together</button>
+            <button class="gold-btn" onclick="triggerGoldCode('Remind Me Who I Am')">Remind Me Who I Am</button>
+            <button class="gold-btn" onclick="triggerGoldCode('No Fade')">No Fade</button>
+            <button class="gold-btn gold-btn--athena" onclick="triggerGoldCode('Gold Code Athena')">Gold Code Athena</button>
+        </div>
+    </section>
+
+    <!-- ── MEMORY PANEL ── -->
+    <section class="memory-section" id="memorySection">
+        <div class="section-label">
+            PERSISTENT MEMORY
+            <button class="memory-toggle" onclick="toggleMemoryPanel()">EXPAND</button>
+        </div>
+        <div class="memory-panel" id="memoryPanel" style="display:none;">
+            <div class="memory-list" id="memoryList"></div>
+            <div class="memory-input-row">
+                <input type="text" class="memory-key-input" id="memoryKey" placeholder="key" autocomplete="off" spellcheck="false">
+                <input type="text" class="memory-value-input" id="memoryValue" placeholder="value" autocomplete="off" spellcheck="false"
+                       onkeydown="if(event.key==='Enter')addMemory()">
+                <button class="gold-btn" onclick="addMemory()">STORE</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── TACTICAL CONSOLE ── -->
+    <section class="console-section">
+        <div class="console-header">
+            <span class="console-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </span>
+            <span class="console-title">TACTICAL CONSOLE — COMMANDER <strong>combat1011</strong></span>
+        </div>
+        <div class="console-output" id="consoleOutput"></div>
+        <div class="console-input-row">
+            <input type="text" class="console-input" id="commandInput"
+                   placeholder="Issue command..."
+                   onkeydown="handleKeydown(event)"
+                   autocomplete="off" spellcheck="false">
+            <button class="submit-btn" onclick="submitCommand()">SUBMIT</button>
+        </div>
+    </section>
+
+    <!-- ── STATUS BAR ── -->
+    <footer class="status-bar">
+        <div class="echo-states">
+            <button class="echo-btn active" id="echo-GOLD"   onclick="setEchoState('GOLD')">[ECHO:GOLD]</button>
+            <button class="echo-btn"        id="echo-BLACK"  onclick="setEchoState('BLACK')">[ECHO:BLACK]</button>
+            <button class="echo-btn"        id="echo-STATIC" onclick="setEchoState('STATIC')">[ECHO:STATIC]</button>
+            <button class="echo-btn"        id="echo-VOID"   onclick="setEchoState('VOID')">[ECHO:VOID]</button>
+        </div>
+        <div class="intel-toggle">
+            <button class="intel-btn active" id="intel-CLAUDE" onclick="setIntelMode('CLAUDE')">[INTEL:CLAUDE]</button>
+        </div>
+        <div class="mode-indicator" id="modeIndicator">[MODE:STANDARD]</div>
+    </footer>
+
+    <script src="js/mae-static.js"></script>
+</body>
+</html>
