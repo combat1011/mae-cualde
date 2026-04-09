@@ -61,6 +61,14 @@ public class PerplexityService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
+     * Returns true if a non-blank API key is configured.
+     * Used by MaeService to decide routing and offline fallback.
+     */
+    public boolean isAvailable() {
+        return apiKey != null && !apiKey.isBlank();
+    }
+
+    /**
      * Send a research query to Perplexity Sonar.
      * Returns a MAE-doctrine-aligned, web-augmented response.
      *
@@ -70,6 +78,9 @@ public class PerplexityService {
      * @return Response text, optionally with citation line
      */
     public String send(String query, List<Map<String, String>> history, String memorySummary) {
+        if (!isAvailable()) {
+            return "[OFFLINE] — Sonar key not set. Add PERPLEXITY_API_KEY to Railway variables or application-local.properties.";
+        }
         int maxRetries = 2;
         for (int attempt = 0; attempt < maxRetries; attempt++) {
             try {

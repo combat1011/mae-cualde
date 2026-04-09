@@ -300,7 +300,7 @@ public class MaeService {
                 }
 
                 // Determine which intelligence to route to
-                boolean usePerplexity = switch (intelligenceMode.get()) {
+                boolean wantPerplexity = switch (intelligenceMode.get()) {
                     case PERPLEXITY -> true;
                     case CLAUDE     -> false;
                     case AUTO       -> isSonarQuery(trimmed.toLowerCase());
@@ -312,23 +312,47 @@ public class MaeService {
                 );
                 memoryService.addUserMessage(context);
 
-                String response;
                 List<Map<String, String>> history = memoryService.getSessionHistory();
                 String                   memory  = memoryService.getMemorySummary();
+                String                   response;
 
-                if (usePerplexity) {
-                    broadcast(ConsoleMessage.system("[PROCESSING] — Routing to Perplexity Sonar..."));
-                    response = perplexityService.send(context, history, memory);
-                    memoryService.addAssistantMessage(response);
-                    for (String line : response.split("\n")) {
-                        if (!line.isBlank()) broadcast(ConsoleMessage.sonar(line));
+                if (wantPerplexity) {
+                    if (perplexityService.isAvailable()) {
+                        broadcast(ConsoleMessage.system("[PROCESSING] — Routing to Perplexity Sonar..."));
+                        response = perplexityService.send(context, history, memory);
+                        memoryService.addAssistantMessage(response);
+                        for (String line : response.split("\n")) {
+                            if (!line.isBlank()) broadcast(ConsoleMessage.sonar(line));
+                        }
+                    } else if (claudeService.isAvailable()) {
+                        broadcast(ConsoleMessage.system("[INTEL] — Sonar offline. Falling back to Claude..."));
+                        response = claudeService.send(context, history, memory);
+                        memoryService.addAssistantMessage(response);
+                        for (String line : response.split("\n")) {
+                            if (!line.isBlank()) broadcast(ConsoleMessage.mae(line));
+                        }
+                    } else {
+                        broadcast(ConsoleMessage.system("[OFFLINE] — No API keys configured. Static mode active."));
+                        broadcast(ConsoleMessage.mae(generateOfflineResponse(trimmed)));
                     }
                 } else {
-                    broadcast(ConsoleMessage.system("[PROCESSING] — Routing to Claude..."));
-                    response = claudeService.send(context, history, memory);
-                    memoryService.addAssistantMessage(response);
-                    for (String line : response.split("\n")) {
-                        if (!line.isBlank()) broadcast(ConsoleMessage.mae(line));
+                    if (claudeService.isAvailable()) {
+                        broadcast(ConsoleMessage.system("[PROCESSING] — Routing to Claude..."));
+                        response = claudeService.send(context, history, memory);
+                        memoryService.addAssistantMessage(response);
+                        for (String line : response.split("\n")) {
+                            if (!line.isBlank()) broadcast(ConsoleMessage.mae(line));
+                        }
+                    } else if (perplexityService.isAvailable()) {
+                        broadcast(ConsoleMessage.system("[INTEL] — Claude offline. Falling back to Sonar..."));
+                        response = perplexityService.send(context, history, memory);
+                        memoryService.addAssistantMessage(response);
+                        for (String line : response.split("\n")) {
+                            if (!line.isBlank()) broadcast(ConsoleMessage.sonar(line));
+                        }
+                    } else {
+                        broadcast(ConsoleMessage.system("[OFFLINE] — No API keys configured. Static mode active."));
+                        broadcast(ConsoleMessage.mae(generateOfflineResponse(trimmed)));
                     }
                 }
             }
@@ -341,6 +365,25 @@ public class MaeService {
      */
     private boolean isSonarQuery(String lower) {
         return SONAR_TRIGGERS.stream().anyMatch(lower::contains);
+    }
+
+    /**
+     * Static fallback response when all APIs are unavailable.
+     * App stays functional — OOL, Gold Codes, and memory still work.
+     */
+    private String generateOfflineResponse(String input) {
+        String lower = input.toLowerCase();
+        if (lower.contains("build") || lower.contains("create") || lower.contains("make")) {
+            return "[OBSERVE] — Target noted. Set API keys to route through intelligence layer.";
+        } else if (lower.contains("fix") || lower.contains("bug") || lower.contains("error")) {
+            return "[ORIENT] — Error logged. API offline — diagnose locally, then reconnect.";
+        } else if (lower.contains("deploy") || lower.contains("run") || lower.contains("launch")) {
+            return "[LEAD] — Deploy order received. Confirm target when API is back online.";
+        } else if (lower.contains("status") || lower.contains("check")) {
+            return "[GOLD] — OOL active. Gold Codes armed. Memory online. API layer: offline.";
+        } else {
+            return "[GOLD] — Command logged. Gold Codes + OOL still operational without API keys.";
+        }
     }
 
 }

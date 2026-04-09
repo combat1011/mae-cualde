@@ -62,7 +62,18 @@ public class ClaudeService {
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * Returns true if a non-blank API key is configured.
+     * Used by MaeService to decide routing and offline fallback.
+     */
+    public boolean isAvailable() {
+        return apiKey != null && !apiKey.isBlank();
+    }
+
     public String send(String userMessage, List<Map<String, String>> history, String memorySummary) {
+        if (!isAvailable()) {
+            return "[OFFLINE] — Claude key not set. Add ANTHROPIC_API_KEY to Railway variables or application-local.properties.";
+        }
         int maxRetries = 3;
         for (int attempt = 0; attempt < maxRetries; attempt++) {
             try {
