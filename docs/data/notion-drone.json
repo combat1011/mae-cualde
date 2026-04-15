@@ -1,0 +1,7 @@
+{
+  "synced_at": "2026-04-15T00:00:00.000Z",
+  "source": "notion",
+  "database": "drone",
+  "shots": [],
+  "_note": "Populated by .github/workflows/notion-sync.yml — add NOTION_DRONE_DB secret to activate."
+}

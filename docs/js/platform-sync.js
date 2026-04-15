@@ -422,41 +422,144 @@ function escapeHtml(str) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   NOTION SYNC STATUS CHECK
-   Reads synced data from /data/notion-sync.json if it exists
-   (populated by the GitHub Action: .github/workflows/notion-sync.yml)
+   NOTION SYNC — ALL 4 DATABASES
+   Reads from docs/data/ JSON files written by:
+   .github/workflows/notion-sync.yml
+
+   Files:
+     notion-sync.json    — master summary (always present)
+     notion-profile.json — Profile / Bio database
+     notion-drone.json   — Drone Shots database
+     notion-tasks.json   — Tasks / Projects board
+     notion-mems.json    — Platform MEM store
 ═══════════════════════════════════════════════════════════════ */
 
-async function checkNotionSyncData() {
+async function _fetchNotionFile(filename) {
     try {
-        const res = await fetch('./data/notion-sync.json');
+        const res = await fetch(`./data/${filename}`);
         if (!res.ok) return null;
-        const data = await res.json();
-
-        const target = document.getElementById('notionSyncData');
-        if (!target || !data) return data;
-
-        // Render synced Notion tasks/pages
-        const items = data.tasks || data.pages || [];
-        if (items.length === 0) return data;
-
-        target.innerHTML = `
-            <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);letter-spacing:0.16em;margin-bottom:12px;">
-                SYNCED FROM NOTION — ${new Date(data.synced_at || Date.now()).toLocaleString()}
-            </div>
-            ${items.slice(0, 10).map(item => `
-            <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(26,36,26,0.5);">
-                <span style="color:var(--accent);font-family:var(--font-mono);font-size:0.6rem;flex-shrink:0;">◈</span>
-                <div>
-                    <div style="font-family:var(--font-sans);font-size:0.85rem;color:var(--text-primary);">${escapeHtml(item.title || item.name || 'Untitled')}</div>
-                    ${item.status ? `<div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--text-muted);margin-top:2px;">${escapeHtml(item.status)}</div>` : ''}
-                </div>
-            </div>`).join('')}`;
-
-        return data;
+        return await res.json();
     } catch (_) {
-        return null; // Notion sync file doesn't exist yet — that's OK
+        return null;
     }
+}
+
+async function checkNotionSyncData() {
+    // Load all 4 databases in parallel
+    const [summary, profile, drone, tasks, mems] = await Promise.all([
+        _fetchNotionFile('notion-sync.json'),
+        _fetchNotionFile('notion-profile.json'),
+        _fetchNotionFile('notion-drone.json'),
+        _fetchNotionFile('notion-tasks.json'),
+        _fetchNotionFile('notion-mems.json')
+    ]);
+
+    const data = summary || {};
+    data._profile = profile;
+    data._drone   = drone;
+    data._tasks   = tasks;
+    data._mems    = mems;
+
+    // ── Render tasks (Tasks / Projects board) ──
+    const tasksTarget = document.getElementById('notionSyncData');
+    const allTasks = (tasks && tasks.tasks) || data.tasks || data.pages || [];
+    if (tasksTarget && allTasks.length > 0) {
+        const syncTime = new Date(data.synced_at || Date.now()).toLocaleString();
+        tasksTarget.innerHTML = `
+            <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);letter-spacing:0.16em;margin-bottom:12px;">
+                NOTION TASKS — SYNCED ${syncTime}
+            </div>
+            ${allTasks.slice(0, 15).map(item => {
+                const statusColor = {
+                    'Done': 'var(--accent)',
+                    'In Progress': 'var(--gold, #fbbf24)',
+                    'Not Started': 'var(--text-muted)',
+                    'Todo': 'var(--text-muted)',
+                    'Blocked': '#ef4444'
+                }[item.status] || 'var(--text-muted)';
+                return `
+                <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(26,36,26,0.5);align-items:flex-start;">
+                    <span style="color:${statusColor};font-family:var(--font-mono);font-size:0.7rem;flex-shrink:0;padding-top:1px;">◈</span>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-family:var(--font-sans);font-size:0.85rem;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                            ${escapeHtml(item.title || 'Untitled')}
+                        </div>
+                        <div style="display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;">
+                            ${item.status ? `<span style="font-family:var(--font-mono);font-size:0.56rem;color:${statusColor};letter-spacing:0.08em;">${escapeHtml(item.status)}</span>` : ''}
+                            ${item.project ? `<span style="font-family:var(--font-mono);font-size:0.56rem;color:var(--text-muted);">${escapeHtml(item.project)}</span>` : ''}
+                            ${item.due ? `<span style="font-family:var(--font-mono);font-size:0.56rem;color:var(--text-muted);">Due: ${escapeHtml(item.due)}</span>` : ''}
+                        </div>
+                    </div>
+                    ${item.url ? `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener"
+                        style="font-family:var(--font-mono);font-size:0.56rem;color:var(--accent);text-decoration:none;flex-shrink:0;padding-top:2px;">
+                        →</a>` : ''}
+                </div>`;
+            }).join('')}`;
+    }
+
+    // ── Render MEMs store ──
+    const memsTarget = document.getElementById('notionMemsData');
+    const allMems = (mems && mems.entries) || [];
+    if (memsTarget && allMems.length > 0) {
+        memsTarget.innerHTML = allMems.slice(0, 12).map(mem => `
+            <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(26,36,26,0.5);font-family:var(--font-mono);font-size:0.68rem;">
+                <span style="color:var(--accent-dim);flex-shrink:0;">[${escapeHtml(mem.category || 'general')}]</span>
+                <span style="color:var(--text-primary);flex-shrink:0;">${escapeHtml(mem.key || '')}</span>
+                <span style="color:var(--text-muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(mem.value || '')}</span>
+            </div>`
+        ).join('');
+
+        // Also push Notion MEMs into localStorage for MAE console access
+        allMems.forEach(mem => {
+            if (mem.key && mem.value) {
+                const existing = JSON.parse(localStorage.getItem('mae_memories') || '{}');
+                if (!existing[mem.key]) {
+                    existing[mem.key] = {
+                        value:     mem.value,
+                        category:  mem.category || 'notion',
+                        timestamp: mem.updated || new Date().toISOString()
+                    };
+                    localStorage.setItem('mae_memories', JSON.stringify(existing));
+                }
+            }
+        });
+    }
+
+    // ── Auto-load Notion drone shots into gallery ──
+    const droneShots = (drone && drone.shots) || [];
+    if (droneShots.length > 0) {
+        droneShots.forEach((shot, i) => {
+            if (!shot.drive_id || shot.drive_id.startsWith('YOUR_')) return;
+            const slotId = `slot${i + 1}`;
+            const slot   = document.getElementById(slotId);
+            if (!slot) return;
+            const iframe = document.createElement('iframe');
+            iframe.src     = `https://drive.google.com/file/d/${encodeURIComponent(shot.drive_id)}/preview`;
+            iframe.allow   = 'autoplay';
+            iframe.loading = 'lazy';
+            iframe.title   = shot.title || 'Drone Shot';
+            slot.parentElement.innerHTML = '';
+            slot.parentElement.appendChild(iframe);
+        });
+        // Update gallery item metadata from Notion
+        droneShots.forEach((shot, i) => {
+            const item = document.querySelector(`.gallery-item:nth-child(${i + 1})`);
+            if (!item) return;
+            const titleEl = item.querySelector('.gallery-item-title');
+            const descEl  = item.querySelector('.gallery-item-desc');
+            if (titleEl && shot.title) titleEl.textContent = shot.title;
+            if (descEl  && shot.description) descEl.textContent = shot.description;
+        });
+    }
+
+    // ── Update sync timestamp anywhere on page ──
+    document.querySelectorAll('[data-notion-synced]').forEach(el => {
+        if (data.synced_at) {
+            el.textContent = `Last synced: ${new Date(data.synced_at).toLocaleString()}`;
+        }
+    });
+
+    return data;
 }
 
 /* Auto-init when DOM is ready (if not called manually) */

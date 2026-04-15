@@ -2,10 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - 'docs/**'
-  workflow_dispatch:
+    branches:
+      - main
+      - 'claude/**'          # deploy from feature branches too
+  workflow_dispatch:          # manual trigger from GitHub UI
 
 permissions:
   contents: read

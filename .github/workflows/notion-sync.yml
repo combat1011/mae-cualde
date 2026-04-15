@@ -1,42 +1,57 @@
 name: Notion → GitHub Sync
 
 # ─────────────────────────────────────────────────────────────────
-# Pulls data from your Notion workspace and writes it to
-# docs/data/notion-sync.json so the MAE website can read it
-# client-side without exposing your API key.
+# Syncs all 4 MAE MegaCorp Notion databases to static JSON files
+# served from docs/data/ so the website can read them client-side
+# without ever exposing your API key.
 #
-# SETUP:
-#   1. Add secrets in GitHub → Settings → Secrets → Actions:
-#      NOTION_API_KEY      — your Notion integration token
-#      NOTION_DATABASE_ID  — database ID from your Notion URL
-#      (optional) NOTION_PAGE_ID — top-level page ID instead of database
+# DATABASES SYNCED:
+#   1. Profile / Bio     → docs/data/notion-profile.json
+#   2. Drone Shots       → docs/data/notion-drone.json
+#   3. Tasks / Projects  → docs/data/notion-tasks.json
+#   4. Platform MEM Store→ docs/data/notion-mems.json
+#   (master summary)     → docs/data/notion-sync.json
 #
-#   2. Create a Notion integration at https://www.notion.so/my-integrations
-#      and share your database/page with it.
+# SETUP (one-time):
+#   1. Go to https://www.notion.so/my-integrations → create a new
+#      integration → copy the "Internal Integration Token".
+#   2. In GitHub → Settings → Secrets → Actions, add:
+#        NOTION_API_KEY      — your integration token (secret_...)
+#        NOTION_PROFILE_DB   — Profile/Bio database ID
+#        NOTION_DRONE_DB     — Drone Shots database ID
+#        NOTION_TASKS_DB     — Tasks/Projects board database ID
+#        NOTION_MEMS_DB      — Platform MEM Store database ID
+#   3. In each Notion database, click ··· → Connections → select
+#      your integration so it can read the data.
+#   4. Get database IDs: open database as full page → copy the
+#      32-char hex string from the URL before the ?v= parameter.
 #
-#   3. Push this file — the action runs automatically on schedule.
+# MANUAL TRIGGER:
+#   GitHub → Actions → "Notion → GitHub Sync" → Run workflow
 # ─────────────────────────────────────────────────────────────────
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # every 6 hours
+    - cron: '0 */6 * * *'        # every 6 hours automatically
   push:
-    branches: [ main, 'claude/**' ]
+    branches:
+      - main
+      - 'claude/**'
     paths:
       - '.github/workflows/notion-sync.yml'
-  workflow_dispatch:          # manual trigger from GitHub UI
+  workflow_dispatch:              # manual trigger from GitHub UI
 
 permissions:
-  contents: write             # needed to push notion-sync.json
+  contents: write
 
 jobs:
   sync-notion:
-    name: Sync Notion Data
+    name: Sync All Notion Databases
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -49,108 +64,299 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch Notion data
+      - name: Sync all Notion databases
         env:
-          NOTION_API_KEY:     ${{ secrets.NOTION_API_KEY }}
+          NOTION_API_KEY:    ${{ secrets.NOTION_API_KEY }}
+          NOTION_PROFILE_DB: ${{ secrets.NOTION_PROFILE_DB }}
+          NOTION_DRONE_DB:   ${{ secrets.NOTION_DRONE_DB }}
+          NOTION_TASKS_DB:   ${{ secrets.NOTION_TASKS_DB }}
+          NOTION_MEMS_DB:    ${{ secrets.NOTION_MEMS_DB }}
+          # Legacy single-database support (backward compatible)
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           NOTION_PAGE_ID:     ${{ secrets.NOTION_PAGE_ID }}
         run: |
-          python3 - <<'EOF'
+          python3 - <<'PYEOF'
           import os, json, requests, sys
           from datetime import datetime, timezone
 
-          API_KEY     = os.getenv('NOTION_API_KEY', '')
-          DATABASE_ID = os.getenv('NOTION_DATABASE_ID', '')
-          PAGE_ID     = os.getenv('NOTION_PAGE_ID', '')
-
+          API_KEY = os.getenv('NOTION_API_KEY', '').strip()
           HEADERS = {
               'Authorization':  f'Bearer {API_KEY}',
               'Notion-Version': '2022-06-28',
               'Content-Type':   'application/json'
           }
 
-          output = {
-              'synced_at': datetime.now(timezone.utc).isoformat(),
-              'source':    'notion',
-              'tasks':     [],
-              'pages':     []
+          os.makedirs('docs/data', exist_ok=True)
+
+          # ── Helper: query a database ───────────────────────────
+          def query_database(db_id, page_size=100):
+              if not db_id or not API_KEY:
+                  return []
+              url  = f'https://api.notion.com/v1/databases/{db_id}/query'
+              rows = []
+              cursor = None
+              while True:
+                  body = {'page_size': page_size}
+                  if cursor:
+                      body['start_cursor'] = cursor
+                  try:
+                      res  = requests.post(url, headers=HEADERS, json=body, timeout=20)
+                      data = res.json()
+                      rows.extend(data.get('results', []))
+                      if data.get('has_more') and data.get('next_cursor'):
+                          cursor = data['next_cursor']
+                      else:
+                          break
+                  except Exception as e:
+                      print(f'[NOTION] DB {db_id[:8]}... error: {e}', file=sys.stderr)
+                      break
+              return rows
+
+          # ── Helper: extract property value ─────────────────────
+          def get_prop(props, prop_type, fallback=''):
+              for prop in props.values():
+                  if prop.get('type') == prop_type:
+                      t = prop.get(prop_type)
+                      if prop_type == 'title':
+                          return ''.join(x.get('plain_text','') for x in (t or []))
+                      if prop_type == 'rich_text':
+                          return ''.join(x.get('plain_text','') for x in (t or []))
+                      if prop_type in ('select', 'status'):
+                          return (t or {}).get('name', fallback)
+                      if prop_type == 'multi_select':
+                          return [x.get('name','') for x in (t or [])]
+                      if prop_type == 'url':
+                          return t or fallback
+                      if prop_type == 'checkbox':
+                          return bool(t)
+                      if prop_type == 'date':
+                          return (t or {}).get('start', fallback) if t else fallback
+                      if prop_type == 'number':
+                          return t
+              return fallback
+
+          def get_title(props):
+              for prop in props.values():
+                  if prop.get('type') == 'title':
+                      texts = prop.get('title', [])
+                      return ''.join(x.get('plain_text','') for x in texts)
+              return 'Untitled'
+
+          NOW = datetime.now(timezone.utc).isoformat()
+
+          # ════════════════════════════════════════════════════════
+          # 1. PROFILE / BIO DATABASE
+          # ════════════════════════════════════════════════════════
+          profile_db  = os.getenv('NOTION_PROFILE_DB', '').strip()
+          profile_out = {
+              'synced_at': NOW, 'source': 'notion', 'database': 'profile',
+              'name': '', 'headline': '', 'bio': '', 'location': '',
+              'linkedin_url': '', 'github_url': '', 'available': True,
+              'skills': [], 'experience': [], 'raw': []
           }
 
-          # ── Pull database rows (tasks/items) ──
-          if API_KEY and DATABASE_ID:
-              url = f'https://api.notion.com/v1/databases/{DATABASE_ID}/query'
-              try:
-                  res  = requests.post(url, headers=HEADERS, json={'page_size': 50}, timeout=15)
-                  data = res.json()
-                  for row in data.get('results', []):
-                      props = row.get('properties', {})
-                      # Extract title (works for most Notion databases)
-                      title = ''
-                      for prop in props.values():
-                          if prop.get('type') == 'title':
-                              texts = prop.get('title', [])
-                              title = ''.join(t.get('plain_text', '') for t in texts)
-                              break
-                      # Extract status
-                      status = ''
-                      for prop in props.values():
-                          if prop.get('type') == 'status':
-                              s = prop.get('status')
-                              if s: status = s.get('name', '')
-                          elif prop.get('type') == 'select':
-                              s = prop.get('select')
-                              if s: status = s.get('name', '')
-                      output['tasks'].append({
-                          'id':         row.get('id'),
-                          'title':      title,
-                          'status':     status,
-                          'url':        row.get('url', ''),
-                          'created':    row.get('created_time', ''),
-                          'updated':    row.get('last_edited_time', '')
-                      })
-                  print(f"[NOTION] Fetched {len(output['tasks'])} database rows")
-              except Exception as e:
-                  print(f"[NOTION] Database fetch error: {e}", file=sys.stderr)
+          rows = query_database(profile_db)
+          print(f'[NOTION] Profile DB: {len(rows)} rows')
+          for row in rows:
+              props = row.get('properties', {})
+              entry = {
+                  'id':      row.get('id'),
+                  'title':   get_title(props),
+                  'bio':     get_prop(props, 'rich_text'),
+                  'url':     row.get('url', ''),
+                  'created': row.get('created_time', ''),
+                  'updated': row.get('last_edited_time', '')
+              }
+              profile_out['raw'].append(entry)
+              # Try to populate top-level fields from first row
+              if not profile_out['name'] and entry['title']:
+                  profile_out['name'] = entry['title']
 
-          # ── Pull top-level page children (blocks) ──
-          if API_KEY and PAGE_ID:
-              url = f'https://api.notion.com/v1/blocks/{PAGE_ID}/children'
+          with open('docs/data/notion-profile.json', 'w') as f:
+              json.dump(profile_out, f, indent=2)
+          print('[NOTION] Written: docs/data/notion-profile.json')
+
+          # ════════════════════════════════════════════════════════
+          # 2. DRONE SHOTS DATABASE
+          # ════════════════════════════════════════════════════════
+          drone_db  = os.getenv('NOTION_DRONE_DB', '').strip()
+          drone_out = {
+              'synced_at': NOW, 'source': 'notion', 'database': 'drone',
+              'shots': []
+          }
+
+          rows = query_database(drone_db)
+          print(f'[NOTION] Drone DB: {len(rows)} rows')
+          for row in rows:
+              props    = row.get('properties', {})
+              title    = get_title(props)
+              drive_id = get_prop(props, 'rich_text')       # Google Drive file ID
+              if not drive_id:
+                  drive_id = get_prop(props, 'url')          # or URL property
+              shot = {
+                  'id':          row.get('id'),
+                  'title':       title,
+                  'drive_id':    drive_id,
+                  'type':        get_prop(props, 'select', 'video'),
+                  'categories':  get_prop(props, 'multi_select', []),
+                  'description': get_prop(props, 'rich_text', ''),
+                  'published':   get_prop(props, 'checkbox', False),
+                  'order':       get_prop(props, 'number', 99),
+                  'url':         row.get('url', '')
+              }
+              if shot['published'] or not drone_db:
+                  drone_out['shots'].append(shot)
+
+          # Sort by order field
+          drone_out['shots'].sort(key=lambda x: x.get('order', 99))
+
+          with open('docs/data/notion-drone.json', 'w') as f:
+              json.dump(drone_out, f, indent=2)
+          print(f'[NOTION] Written: docs/data/notion-drone.json ({len(drone_out["shots"])} shots)')
+
+          # ════════════════════════════════════════════════════════
+          # 3. TASKS / PROJECTS BOARD
+          # ════════════════════════════════════════════════════════
+          tasks_db  = os.getenv('NOTION_TASKS_DB', '').strip()
+          # Also support legacy NOTION_DATABASE_ID
+          if not tasks_db:
+              tasks_db = os.getenv('NOTION_DATABASE_ID', '').strip()
+          tasks_out = {
+              'synced_at': NOW, 'source': 'notion', 'database': 'tasks',
+              'tasks': []
+          }
+
+          rows = query_database(tasks_db)
+          print(f'[NOTION] Tasks DB: {len(rows)} rows')
+          for row in rows:
+              props = row.get('properties', {})
+              task  = {
+                  'id':       row.get('id'),
+                  'title':    get_title(props),
+                  'status':   get_prop(props, 'status') or get_prop(props, 'select'),
+                  'project':  get_prop(props, 'select', ''),
+                  'priority': '',
+                  'due':      get_prop(props, 'date', ''),
+                  'url':      row.get('url', ''),
+                  'created':  row.get('created_time', ''),
+                  'updated':  row.get('last_edited_time', '')
+              }
+              # Try different property names for priority/project
+              for prop_name, prop in props.items():
+                  if 'priority' in prop_name.lower() and prop.get('type') in ('select','status'):
+                      s = prop.get(prop.get('type'), {})
+                      task['priority'] = (s or {}).get('name', '')
+                  if 'project' in prop_name.lower() and prop.get('type') in ('select','multi_select'):
+                      if prop.get('type') == 'select':
+                          s = prop.get('select', {})
+                          task['project'] = (s or {}).get('name', '')
+                      elif prop.get('type') == 'multi_select':
+                          task['project'] = ', '.join(x.get('name','') for x in (prop.get('multi_select') or []))
+              tasks_out['tasks'].append(task)
+
+          with open('docs/data/notion-tasks.json', 'w') as f:
+              json.dump(tasks_out, f, indent=2)
+          print(f'[NOTION] Written: docs/data/notion-tasks.json ({len(tasks_out["tasks"])} tasks)')
+
+          # ════════════════════════════════════════════════════════
+          # 4. PLATFORM MEM STORE
+          # ════════════════════════════════════════════════════════
+          mems_db  = os.getenv('NOTION_MEMS_DB', '').strip()
+          mems_out = {
+              'synced_at': NOW, 'source': 'notion', 'database': 'mems',
+              'entries': []
+          }
+
+          rows = query_database(mems_db)
+          print(f'[NOTION] MEMs DB: {len(rows)} rows')
+          for row in rows:
+              props = row.get('properties', {})
+              mem   = {
+                  'id':       row.get('id'),
+                  'key':      get_title(props),
+                  'value':    get_prop(props, 'rich_text', ''),
+                  'category': get_prop(props, 'select', 'general'),
+                  'platform': '',
+                  'url':      row.get('url', ''),
+                  'updated':  row.get('last_edited_time', '')
+              }
+              # Look for platform property
+              for prop_name, prop in props.items():
+                  if 'platform' in prop_name.lower() and prop.get('type') == 'select':
+                      s = prop.get('select', {})
+                      mem['platform'] = (s or {}).get('name', '')
+              mems_out['entries'].append(mem)
+
+          with open('docs/data/notion-mems.json', 'w') as f:
+              json.dump(mems_out, f, indent=2)
+          print(f'[NOTION] Written: docs/data/notion-mems.json ({len(mems_out["entries"])} entries)')
+
+          # ════════════════════════════════════════════════════════
+          # 5. MASTER SUMMARY (notion-sync.json — backward compat)
+          # ════════════════════════════════════════════════════════
+          # Also pull optional top-level page blocks
+          page_id  = os.getenv('NOTION_PAGE_ID', '').strip()
+          pages    = []
+          if API_KEY and page_id:
+              url = f'https://api.notion.com/v1/blocks/{page_id}/children'
               try:
                   res  = requests.get(url, headers=HEADERS, params={'page_size': 50}, timeout=15)
                   data = res.json()
                   for block in data.get('results', []):
                       btype = block.get('type', '')
-                      text  = ''
                       inner = block.get(btype, {})
-                      for rich in inner.get('rich_text', []):
-                          text += rich.get('plain_text', '')
+                      text  = ''.join(r.get('plain_text','') for r in inner.get('rich_text', []))
                       if text:
-                          output['pages'].append({
-                              'id':    block.get('id'),
-                              'type':  btype,
-                              'title': text
-                          })
-                  print(f"[NOTION] Fetched {len(output['pages'])} page blocks")
+                          pages.append({'id': block.get('id'), 'type': btype, 'title': text})
               except Exception as e:
-                  print(f"[NOTION] Page fetch error: {e}", file=sys.stderr)
+                  print(f'[NOTION] Page fetch error: {e}', file=sys.stderr)
 
-          # ── Write output ──
-          out_path = 'docs/data/notion-sync.json'
-          os.makedirs(os.path.dirname(out_path), exist_ok=True)
-          with open(out_path, 'w') as f:
-              json.dump(output, f, indent=2)
-          print(f"[NOTION] Written to {out_path}")
-          print(f"[NOTION] Tasks: {len(output['tasks'])}, Pages: {len(output['pages'])}")
-          EOF
+          summary = {
+              'synced_at': NOW,
+              'source':    'notion',
+              'databases': {
+                  'profile': bool(profile_db),
+                  'drone':   bool(drone_db),
+                  'tasks':   bool(tasks_db),
+                  'mems':    bool(mems_db)
+              },
+              'counts': {
+                  'profile_rows': len(profile_out.get('raw', [])),
+                  'drone_shots':  len(drone_out.get('shots', [])),
+                  'tasks':        len(tasks_out.get('tasks', [])),
+                  'mems':         len(mems_out.get('entries', []))
+              },
+              'tasks':  tasks_out.get('tasks', []),
+              'pages':  pages,
+              '_note':  'Master summary. Full data in notion-profile/drone/tasks/mems.json'
+          }
 
-      - name: Commit and push notion-sync.json
+          with open('docs/data/notion-sync.json', 'w') as f:
+              json.dump(summary, f, indent=2)
+
+          print('[NOTION] ─────────────────────────────────────────')
+          print(f'[NOTION] Sync complete at {NOW}')
+          print(f'[NOTION] Profile rows : {summary["counts"]["profile_rows"]}')
+          print(f'[NOTION] Drone shots  : {summary["counts"]["drone_shots"]}')
+          print(f'[NOTION] Tasks        : {summary["counts"]["tasks"]}')
+          print(f'[NOTION] MEMs         : {summary["counts"]["mems"]}')
+          print('[NOTION] ─────────────────────────────────────────')
+          PYEOF
+
+      - name: Commit synced data
         run: |
           git config user.name  "MAE MegaCorp Bot"
           git config user.email "mae-bot@users.noreply.github.com"
-          git add docs/data/notion-sync.json
+          git add docs/data/notion-sync.json \
+                  docs/data/notion-profile.json \
+                  docs/data/notion-drone.json \
+                  docs/data/notion-tasks.json \
+                  docs/data/notion-mems.json
           if git diff --cached --quiet; then
-            echo "No changes to notion-sync.json — skipping commit."
+            echo "No Notion data changes — skipping commit."
           else
-            git commit -m "chore: notion sync $(date -u '+%Y-%m-%d %H:%M UTC')"
+            COUNT=$(git diff --cached --name-only | wc -l | tr -d ' ')
+            git commit -m "chore: notion sync — ${COUNT} files updated ($(date -u '+%Y-%m-%d %H:%M UTC'))"
             git push
+            echo "Pushed Notion sync data."
           fi
