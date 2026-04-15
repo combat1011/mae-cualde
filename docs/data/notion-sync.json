@@ -1,6 +1,19 @@
 {
-  "synced_at": "2026-04-15T20:05:23.371893+00:00",
+  "synced_at": "2026-04-15T20:30:24.861192+00:00",
   "source": "notion",
+  "databases": {
+    "profile": false,
+    "drone": false,
+    "tasks": false,
+    "mems": false
+  },
+  "counts": {
+    "profile_rows": 0,
+    "drone_shots": 0,
+    "tasks": 0,
+    "mems": 0
+  },
   "tasks": [],
-  "pages": []
+  "pages": [],
+  "_note": "Master summary. Full data in notion-profile/drone/tasks/mems.json"
 }

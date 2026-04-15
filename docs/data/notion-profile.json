@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-04-15T00:00:00.000Z",
+  "synced_at": "2026-04-15T20:30:24.861192+00:00",
   "source": "notion",
   "database": "profile",
   "name": "",
@@ -7,10 +7,9 @@
   "bio": "",
   "location": "",
   "linkedin_url": "",
-  "github_url": "https://github.com/combat1011",
+  "github_url": "",
   "available": true,
   "skills": [],
   "experience": [],
-  "raw": [],
-  "_note": "Populated by .github/workflows/notion-sync.yml — add NOTION_PROFILE_DB secret to activate."
+  "raw": []
 }
