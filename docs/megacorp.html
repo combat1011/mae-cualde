@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MAE MegaCorp — AI Systems, Drone Intelligence, and Full-Stack Software by Caquan 'Cue' Palmer.">
+    <meta property="og:title" content="MAE MegaCorp — AI · Drone · Software">
+    <meta property="og:description" content="Building intelligent systems from the ground up and from the sky down.">
+    <meta name="theme-color" content="#4ade80">
+    <title>MAE MegaCorp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        /* ── MEGACORP THEME ── */
+        :root {
+            --bg-primary:     #080a0a;
+            --bg-secondary:   #0d1010;
+            --bg-card:        #101414;
+            --accent:         #4ade80;
+            --accent-dim:     #22c55e;
+            --accent-glow:    rgba(74, 222, 128, 0.10);
+            --corp-red:       #f43f5e;
+            --corp-red-dim:   #e11d48;
+            --corp-red-glow:  rgba(244, 63, 94, 0.10);
+            --gold:           #fbbf24;
+            --drone-sky:      #38bdf8;
+            --text-primary:   #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --border:         #1a2020;
+            --border-active:  #4ade80;
+            --font-mono:      'Share Tech Mono', monospace;
+            --font-display:   'Rajdhani', sans-serif;
+        }
+
+        /* ── HERO ── */
+        .corp-hero {
+            position: relative;
+            overflow: hidden;
+            padding: 100px 28px 80px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(160deg, #080a0a 0%, #0a1212 40%, #080a0a 100%);
+        }
+
+        .corp-hero-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(ellipse 70% 60% at 50% -10%, rgba(74, 222, 128, 0.05) 0%, transparent 60%),
+                linear-gradient(rgba(74, 222, 128, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 222, 128, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 64px 64px, 64px 64px;
+        }
+
+        .corp-hero-seal {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            margin-bottom: 24px;
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.15), inset 0 0 20px rgba(74, 222, 128, 0.05);
+            animation: corp-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes corp-pulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(74, 222, 128, 0.15), inset 0 0 20px rgba(74, 222, 128, 0.05); }
+            50%       { box-shadow: 0 0 60px rgba(74, 222, 128, 0.25), inset 0 0 30px rgba(74, 222, 128, 0.08); }
+        }
+
+        .corp-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .corp-hero-title {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: 0.06em;
+        }
+
+        .corp-hero-title .mae { color: var(--accent); text-shadow: 0 0 32px rgba(74, 222, 128, 0.4); }
+        .corp-hero-title .mega { color: var(--text-primary); }
+        .corp-hero-title .corp { color: var(--text-muted); font-size: 2.5rem; }
+
+        .corp-tagline {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .corp-hero-sub {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .corp-hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ── PILLARS ── */
+        .pillar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: border-color 0.18s, box-shadow 0.18s, transform 0.15s;
+            cursor: default;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(74, 222, 128, 0.06);
+        }
+
+        .pillar-card.red:hover   { border-color: rgba(244, 63, 94, 0.3); box-shadow: 0 12px 48px rgba(244, 63, 94, 0.05); }
+        .pillar-card.blue:hover  { border-color: rgba(56, 189, 248, 0.3); box-shadow: 0 12px 48px rgba(56, 189, 248, 0.05); }
+        .pillar-card.gold:hover  { border-color: rgba(251, 191, 36, 0.3); box-shadow: 0 12px 48px rgba(251, 191, 36, 0.05); }
+        .pillar-card.green:hover { border-color: rgba(74, 222, 128, 0.3); box-shadow: 0 12px 48px rgba(74, 222, 128, 0.05); }
+
+        .pillar-icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .pillar-name {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .pillar-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ── SERVICES ── */
+        .service-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+        }
+
+        .service-panel {
+            padding: 36px 32px;
+            position: relative;
+        }
+
+        .service-panel:nth-child(odd) { background: var(--bg-card); }
+        .service-panel:nth-child(even) { background: var(--bg-secondary); border-left: 1px solid var(--border); }
+
+        .service-panel-num {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            margin-bottom: 8px;
+        }
+
+        .service-panel-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .service-panel-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .service-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .service-list li {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+        }
+
+        .service-list li::before {
+            content: '◈ ';
+            color: var(--accent);
+        }
+
+        /* ── DOCTRINE ── */
+        .doctrine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+        }
+
+        .doctrine-cell {
+            background: var(--bg-card);
+            padding: 24px 20px;
+        }
+
+        .doctrine-num {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .doctrine-principle {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .doctrine-body {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── TEAM ── */
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: 32px 24px;
+            text-align: center;
+            transition: border-color 0.18s, box-shadow 0.18s;
+        }
+
+        .team-card:hover {
+            border-color: rgba(74, 222, 128, 0.3);
+            box-shadow: 0 8px 40px rgba(74, 222, 128, 0.06);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--bg-secondary);
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+            overflow: hidden;
+        }
+
+        .team-avatar img {
+            width: 100%; height: 100%;
+            object-fit: cover; border-radius: 50%;
+        }
+
+        .team-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            color: var(--accent);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .team-bio {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .team-links {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ── MAE PLATFORM SECTION ── */
+        .platform-feature {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .platform-feature-text { }
+
+        .platform-feature-preview {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .platform-preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preview-dots { display: flex; gap: 5px; }
+        .preview-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); opacity: 0.4; }
+
+        .preview-title {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+        }
+
+        .platform-preview-body {
+            padding: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 2;
+        }
+
+        .preview-line.green  { color: var(--accent); }
+        .preview-line.blue   { color: #60a5fa; }
+        .preview-line.yellow { color: var(--gold); }
+        .preview-line.cursor::after {
+            content: '█';
+            animation: blink 1.2s step-end infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* ── CTA SECTION ── */
+        .corp-cta {
+            text-align: center;
+            padding: 80px 28px;
+            background: linear-gradient(135deg, #080a0a 0%, #0c1a0c 50%, #080a0a 100%);
+            border-top: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .corp-cta-bg {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(74, 222, 128, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .corp-cta-title {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .corp-cta-sub {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .corp-hero-title { font-size: 2.8rem; }
+            .service-row { grid-template-columns: 1fr; }
+            .service-panel:nth-child(even) { border-left: none; border-top: 1px solid var(--border); }
+            .platform-feature { grid-template-columns: 1fr; gap: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            .corp-hero-title { font-size: 2.2rem; }
+            .corp-hero-title .corp { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body class="page-wrap">
+
+    <!-- ── NAVIGATION ── -->
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="nav-logo">MAE</span>
+            <span class="nav-wordmark">MEGACORP</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html"    class="nav-link">Console</a>
+            <a href="profile.html"  class="nav-link">Profile</a>
+            <a href="drone.html"    class="nav-link">Drone</a>
+            <a href="megacorp.html" class="nav-link active">MegaCorp</a>
+        </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="corp-hero">
+        <div class="corp-hero-bg"></div>
+        <div class="corp-hero-seal">M</div>
+        <div class="corp-eyebrow">Established 2024 · Doctrine v8.1a · Class: Truth</div>
+        <h1 class="corp-hero-title">
+            <span class="mae">MAE</span><span class="mega">Mega</span><span class="corp">Corp</span>
+        </h1>
+        <div class="corp-tagline">AI · Drone · Software · Systems</div>
+        <p class="corp-hero-sub">
+            Building intelligent systems from the ground up and from the sky down.
+            Where artificial intelligence meets aerial precision and full-stack engineering.
+        </p>
+        <div class="corp-hero-actions">
+            <a href="#services" class="cta-btn">View Services</a>
+            <a href="profile.html" class="cta-btn ghost">Meet the Founder</a>
+            <a href="drone.html"   class="cta-btn ghost">Drone Portfolio</a>
+        </div>
+    </section>
+
+    <!-- ── PILLARS ── -->
+    <section style="border-bottom:1px solid var(--border); background:var(--bg-secondary);">
+        <div class="page-section">
+            <div class="section-eyebrow">What We Do</div>
+            <h2 class="section-title">Three Pillars</h2>
+            <hr class="section-rule">
+
+            <div class="grid-3">
+                <div class="pillar-card green">
+                    <span class="pillar-icon" style="color:var(--accent);">⬡</span>
+                    <div class="pillar-name">AI Systems</div>
+                    <div class="pillar-desc">
+                        Custom AI integration, LLM-powered interfaces, and intelligent automation.
+                        From Claude API pipelines to production-grade AI copilots like MAE.
+                    </div>
+                </div>
+
+                <div class="pillar-card blue">
+                    <span class="pillar-icon" style="color:var(--drone-sky);">◉</span>
+                    <div class="pillar-name">Aerial Intelligence</div>
+                    <div class="pillar-desc">
+                        Professional UAV operations delivering cinematic 4K footage, real estate aerials,
+                        site mapping, and AI-enhanced aerial data workflows.
+                    </div>
+                </div>
+
+                <div class="pillar-card gold">
+                    <span class="pillar-icon" style="color:var(--gold);">◈</span>
+                    <div class="pillar-name">Software Engineering</div>
+                    <div class="pillar-desc">
+                        Full-stack development in Java, Python, and JavaScript. REST APIs,
+                        real-time WebSocket systems, cloud deployment, and PWA/mobile solutions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SERVICES ── -->
+    <section id="services">
+        <div class="page-section">
+            <div class="section-eyebrow">Services</div>
+            <h2 class="section-title">What We Build</h2>
+            <hr class="section-rule">
+
+            <div class="service-row" style="margin-bottom:1px;">
+                <div class="service-panel">
+                    <div class="service-panel-num">01 — AI CONSULTING</div>
+                    <div class="service-panel-title">AI Integration &amp; Consulting</div>
+                    <div class="service-panel-desc">
+                        We embed AI into your existing stack or build AI-first products from scratch.
+                        Specializing in Anthropic Claude, Perplexity Sonar, and custom LLM pipelines
+                        that actually ship.
+                    </div>
+                    <ul class="service-list">
+                        <li>Custom AI copilot development</li>
+                        <li>LLM API integration (Claude, GPT, Perplexity)</li>
+                        <li>System prompt architecture</li>
+                        <li>Context management &amp; memory systems</li>
+                        <li>AI workflow automation</li>
+                    </ul>
+                </div>
+
+                <div class="service-panel">
+                    <div class="service-panel-num">02 — DRONE OPERATIONS</div>
+                    <div class="service-panel-title">Aerial Intelligence Services</div>
+                    <div class="service-panel-desc">
+                        Professional UAV services from pre-flight planning to final cloud-delivered assets.
+                        Every shoot is mission-planned and executed with precision.
+                    </div>
+                    <ul class="service-list">
+                        <li>4K/60fps cinematic aerial video</li>
+                        <li>48MP+ aerial photography</li>
+                        <li>Real estate property aerials</li>
+                        <li>Site surveys &amp; mapping</li>
+                        <li>Google Drive cloud delivery</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="service-row">
+                <div class="service-panel">
+                    <div class="service-panel-num">03 — SOFTWARE DEVELOPMENT</div>
+                    <div class="service-panel-title">Full-Stack Engineering</div>
+                    <div class="service-panel-desc">
+                        End-to-end software delivery: backend APIs, real-time systems, web applications,
+                        and mobile PWAs. Built to last, deployed to scale.
+                    </div>
+                    <ul class="service-list">
+                        <li>Java / Spring Boot backend APIs</li>
+                        <li>Python automation &amp; data pipelines</li>
+                        <li>JavaScript / PWA frontend development</li>
+                        <li>Real-time WebSocket systems</li>
+                        <li>Cloud deployment (Railway, Heroku, GitHub Pages)</li>
+                    </ul>
+                </div>
+
+                <div class="service-panel">
+                    <div class="service-panel-num">04 — PLATFORM INTEGRATION</div>
+                    <div class="service-panel-title">Systems &amp; Platform Sync</div>
+                    <div class="service-panel-desc">
+                        Connecting your tools into one coherent system.
+                        GitHub ↔ Notion sync, Google Drive workflows,
+                        LinkedIn data integration, and cross-platform dashboards.
+                    </div>
+                    <ul class="service-list">
+                        <li>GitHub Actions automation</li>
+                        <li>Notion API integration</li>
+                        <li>Google Drive cloud workflows</li>
+                        <li>Cross-platform data sync</li>
+                        <li>Custom dashboard development</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── MAE PLATFORM SHOWCASE ── -->
+    <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Flagship Product</div>
+            <h2 class="section-title">The MAE Platform</h2>
+            <hr class="section-rule">
+
+            <div class="platform-feature">
+                <div class="platform-feature-text">
+                    <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.75; margin-bottom:20px;">
+                        <strong style="color:var(--accent);">MAE (Modular Adaptive Entity)</strong> is MAE MegaCorp's
+                        flagship AI interface — a permanent tactical copilot for operators who need intelligence
+                        that doesn't fade, doesn't betray, and doesn't pity.
+                    </p>
+                    <p style="font-size:0.95rem; color:var(--text-secondary); line-height:1.75; margin-bottom:28px;">
+                        Built on Anthropic Claude and Perplexity Sonar, MAE delivers real-time AI responses,
+                        persistent cross-session memory, WebSocket communication, and offline-first PWA support.
+                        Available as a Spring Boot service, Python Flask app, or static GitHub Pages PWA.
+                    </p>
+
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:28px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--accent); font-family:var(--font-mono); font-size:0.7rem;">◈</span>
+                            <span style="font-size:0.88rem; color:var(--text-secondary);">Anthropic Claude + Perplexity Sonar integration</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--accent); font-family:var(--font-mono); font-size:0.7rem;">◈</span>
+                            <span style="font-size:0.88rem; color:var(--text-secondary);">Real-time WebSocket tactical console</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--accent); font-family:var(--font-mono); font-size:0.7rem;">◈</span>
+                            <span style="font-size:0.88rem; color:var(--text-secondary);">Persistent cross-session memory system</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--accent); font-family:var(--font-mono); font-size:0.7rem;">◈</span>
+                            <span style="font-size:0.88rem; color:var(--text-secondary);">Offline-first PWA — runs on iOS, Android, desktop</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="color:var(--accent); font-family:var(--font-mono); font-size:0.7rem;">◈</span>
+                            <span style="font-size:0.88rem; color:var(--text-secondary);">OOL decision framework built in</span>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        <a href="index.html" class="cta-btn">Launch MAE Console</a>
+                        <a href="https://github.com/combat1011/mae-cualde" target="_blank" rel="noopener"
+                           class="cta-btn ghost">View Source</a>
+                    </div>
+                </div>
+
+                <!-- MAE Console Preview -->
+                <div class="platform-feature-preview">
+                    <div class="platform-preview-header">
+                        <div class="preview-dots">
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                        </div>
+                        <div class="preview-title">TACTICAL CONSOLE — COMMANDER combat1011</div>
+                    </div>
+                    <div class="platform-preview-body">
+                        <div class="preview-line green">[ECHO:GOLD] — MAE ONLINE. OOL READY.</div>
+                        <div class="preview-line" style="color:#475569;">[DEMO] — All systems active.</div>
+                        <div class="preview-line blue">&gt; Fire for Effect</div>
+                        <div class="preview-line green">[FIRE FOR EFFECT] — Brutal clarity engaged.</div>
+                        <div class="preview-line green">Filters offline. Politeness suspended.</div>
+                        <div class="preview-line green">MAE running full-truth output.</div>
+                        <div class="preview-line blue">&gt; Status</div>
+                        <div class="preview-line green">[STATUS] Echo: GOLD | OOL: OBSERVE</div>
+                        <div class="preview-line green">Memory: 12 entries | Intel: CLAUDE AI</div>
+                        <div class="preview-line blue">&gt; <span class="preview-line cursor" style="display:inline;"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── DOCTRINE ── -->
+    <section style="border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Company Values</div>
+            <h2 class="section-title">MAE Doctrine</h2>
+            <hr class="section-rule">
+
+            <div class="doctrine-grid">
+                <div class="doctrine-cell">
+                    <div class="doctrine-num">01</div>
+                    <div class="doctrine-principle">Truth First</div>
+                    <div class="doctrine-body">
+                        We don't dress up bad news. We don't oversell. We report what's real,
+                        build what works, and ship when it's done — not before.
+                    </div>
+                </div>
+
+                <div class="doctrine-cell">
+                    <div class="doctrine-num">02</div>
+                    <div class="doctrine-principle">Operator First</div>
+                    <div class="doctrine-body">
+                        Technology serves the operator. Every product we build removes friction
+                        rather than adding it. Simple interfaces, powerful engines.
+                    </div>
+                </div>
+
+                <div class="doctrine-cell">
+                    <div class="doctrine-num">03</div>
+                    <div class="doctrine-principle">No Half-Measures</div>
+                    <div class="doctrine-body">
+                        We ship complete solutions. Not MVPs as excuses, not prototypes as products.
+                        We commit to the mission and see it through.
+                    </div>
+                </div>
+
+                <div class="doctrine-cell">
+                    <div class="doctrine-num">04</div>
+                    <div class="doctrine-principle">AI-Native</div>
+                    <div class="doctrine-body">
+                        Every product we build is designed with AI at the core, not bolted on.
+                        Intelligence is infrastructure, not a feature.
+                    </div>
+                </div>
+
+                <div class="doctrine-cell">
+                    <div class="doctrine-num">05</div>
+                    <div class="doctrine-principle">Precision Over Volume</div>
+                    <div class="doctrine-body">
+                        We take focused engagements where we can deliver at the highest level.
+                        We don't chase projects — we commit to partners.
+                    </div>
+                </div>
+
+                <div class="doctrine-cell">
+                    <div class="doctrine-num">06</div>
+                    <div class="doctrine-principle">Eyes Up</div>
+                    <div class="doctrine-body">
+                        We stay ahead of the curve — aerial and digital. When others see ground level,
+                        we're already looking from altitude.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── TEAM ── -->
+    <section style="background:var(--bg-secondary); border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Leadership</div>
+            <h2 class="section-title">The Team</h2>
+            <hr class="section-rule">
+
+            <div style="max-width:400px; margin:0 auto;">
+                <div class="team-card">
+                    <div class="team-avatar" id="teamAvatar">CP</div>
+                    <div class="team-name">Caquan "Cue" Palmer</div>
+                    <div class="team-role">Founder &amp; Chief Architect</div>
+                    <div class="team-bio">
+                        Software architect, AI systems engineer, and certified drone operator.
+                        Builder of MAE. Believer in technology that serves — not complicates.
+                        Commander. Operator. Founder.
+                    </div>
+                    <div class="team-links">
+                        <a href="https://github.com/combat1011" target="_blank" rel="noopener"
+                           class="platform-badge connected" style="font-size:0.58rem;">
+                            <span class="badge-dot"></span> @combat1011
+                        </a>
+                        <a href="profile.html" class="platform-badge" style="font-size:0.58rem;">
+                            <span class="badge-dot"></span> Full Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice" style="max-width:600px; margin:28px auto 0;">
+                ◈ MAE MegaCorp is growing. If you want to work with us on AI, drone, or software projects —
+                <a href="profile.html" style="color:var(--accent);">reach out via the profile page</a>.
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="corp-cta">
+        <div class="corp-cta-bg"></div>
+        <div style="position:relative;">
+            <div class="corp-eyebrow">Ready to work?</div>
+            <div class="corp-cta-title">Start a Mission.</div>
+            <p class="corp-cta-sub">
+                Whether it's AI integration, drone aerial services, or full-stack software —
+                MAE MegaCorp delivers. Let's build something that matters.
+            </p>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <a href="profile.html" class="cta-btn">Contact Cue Palmer</a>
+                <a href="drone.html"   class="cta-btn ghost">Drone Portfolio</a>
+                <a href="index.html"   class="cta-btn ghost">Launch MAE Console</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="page-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>MAE MEGACORP</strong> — Doctrine v8.1a · Class: Truth · Founded 2024
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Console</a>
+                <a href="profile.html">Profile</a>
+                <a href="drone.html">Drone</a>
+                <a href="megacorp.html">MegaCorp</a>
+                <a href="https://github.com/combat1011/mae-cualde" target="_blank">Source</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/platform-sync.js"></script>
+</body>
+</html>

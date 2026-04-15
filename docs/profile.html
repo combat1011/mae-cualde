@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Caquan 'Cue' Palmer — Software Architect, AI Systems Engineer, Drone Operations. Founder of MAE MegaCorp.">
+    <meta property="og:title" content="Caquan 'Cue' Palmer — Profile">
+    <meta property="og:description" content="Software Architect · AI Systems · Drone Ops · MAE MegaCorp">
+    <meta name="theme-color" content="#4ade80">
+    <title>Cue Palmer — Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        /* ── PROFILE-SPECIFIC STYLES ── */
+        :root {
+            --bg-primary:     #0a0c0a;
+            --bg-secondary:   #111411;
+            --bg-card:        #131613;
+            --bg-card-active: #0c1a0c;
+            --accent:         #4ade80;
+            --accent-dim:     #22c55e;
+            --accent-glow:    rgba(74, 222, 128, 0.12);
+            --text-primary:   #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --border:         #1a241a;
+            --border-active:  #4ade80;
+            --font-mono:      'Share Tech Mono', monospace;
+            --font-display:   'Rajdhani', sans-serif;
+        }
+
+        /* ── HERO ── */
+        .profile-hero {
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, #0a0c0a 0%, #0c1a0c 50%, #0a0c0a 100%);
+            padding: 60px 28px 48px;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(74, 222, 128, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 222, 128, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .profile-card {
+            position: relative;
+            max-width: var(--max-w);
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 36px;
+        }
+
+        .profile-avatar-wrap {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 32px rgba(74, 222, 128, 0.2);
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .availability-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .availability-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+            animation: pulse-dot 2.5s ease-in-out infinite;
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .profile-name {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+
+        .profile-name span {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+        }
+
+        .profile-headline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        .meta-chip .dot { color: var(--accent); }
+
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* ── PLATFORM CONNECTIONS ── */
+        .platform-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .stat-cell {
+            background: var(--bg-card);
+            padding: 20px 16px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            text-shadow: 0 0 12px rgba(74, 222, 128, 0.3);
+        }
+
+        .stat-lbl {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* ── SKILLS ── */
+        .skills-section { background: var(--bg-secondary); }
+
+        .skills-category {
+            margin-bottom: 24px;
+        }
+
+        .skills-category-label {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--accent-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* ── FEATURED PROJECTS ── */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: 24px;
+            text-decoration: none;
+            display: block;
+            transition: border-color var(--transition), box-shadow var(--transition), transform 0.15s;
+        }
+
+        .project-card:hover {
+            border-color: rgba(74, 222, 128, 0.35);
+            box-shadow: 0 8px 40px rgba(74, 222, 128, 0.07);
+            transform: translateY(-2px);
+        }
+
+        .project-type {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .project-name {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .project-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .project-tag {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            padding: 2px 8px;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+        }
+
+        .project-accent-mae    { border-left: 3px solid var(--accent); }
+        .project-accent-drone  { border-left: 3px solid var(--drone-sky); }
+        .project-accent-corp   { border-left: 3px solid var(--corp-red); }
+
+        /* ── GITHUB LIVE ── */
+        .github-loading {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 24px;
+            letter-spacing: 0.12em;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 700px) {
+            .profile-card { flex-direction: column; gap: 20px; }
+            .profile-avatar { width: 88px; height: 88px; font-size: 2rem; }
+            .profile-name { font-size: 1.8rem; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 420px) {
+            .stats-row { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body class="page-wrap">
+
+    <!-- ── NAVIGATION ── -->
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="nav-logo">MAE</span>
+            <span class="nav-wordmark">MEGACORP</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html"    class="nav-link">Console</a>
+            <a href="profile.html"  class="nav-link active">Profile</a>
+            <a href="drone.html"    class="nav-link">Drone</a>
+            <a href="megacorp.html" class="nav-link">MegaCorp</a>
+        </div>
+    </nav>
+
+    <!-- ── HERO / PROFILE CARD ── -->
+    <section class="profile-hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+
+        <div class="profile-card">
+            <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="profileAvatar">CP</div>
+                <div class="availability-badge">
+                    <div class="availability-dot" title="Available for collaboration"></div>
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <h1 class="profile-name">Caquan <span>"Cue"</span> Palmer</h1>
+                <p class="profile-headline">
+                    Software Architect &bull; AI Systems Engineer &bull; Drone Operations &bull; Founder, MAE MegaCorp
+                </p>
+                <div class="profile-meta">
+                    <span class="meta-chip"><span class="dot">◈</span> @combat1011</span>
+                    <span class="meta-chip"><span class="dot">◈</span> Open to collaboration</span>
+                    <span class="meta-chip"><span class="dot">◈</span> Building MAE since 2024</span>
+                </div>
+                <div class="profile-actions">
+                    <a href="https://github.com/combat1011" target="_blank" rel="noopener" class="cta-btn">GitHub Profile</a>
+                    <a href="megacorp.html" class="cta-btn ghost">MAE MegaCorp</a>
+                    <a href="drone.html"    class="cta-btn ghost">Drone Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PLATFORM CONNECTIONS ── -->
+    <section style="border-bottom:1px solid var(--border); background: var(--bg-secondary);">
+        <div class="page-section" style="padding-top:32px;padding-bottom:32px;">
+            <div class="section-eyebrow">Connected Platforms</div>
+            <div class="platform-grid" id="platformGrid">
+                <a href="https://github.com/combat1011" target="_blank" rel="noopener"
+                   class="platform-badge connected">
+                    <span class="badge-icon">⌥</span>
+                    <span class="badge-dot"></span>
+                    GitHub
+                </a>
+                <span class="platform-badge" id="linkedinBadge" onclick="openLinkedIn()">
+                    <span class="badge-icon">in</span>
+                    <span class="badge-dot"></span>
+                    LinkedIn
+                </span>
+                <span class="platform-badge" id="notionBadge">
+                    <span class="badge-icon">N</span>
+                    <span class="badge-dot"></span>
+                    Notion
+                </span>
+                <span class="platform-badge" id="driveBadge">
+                    <span class="badge-icon">▲</span>
+                    <span class="badge-dot"></span>
+                    Google Drive
+                </span>
+                <a href="index.html" class="platform-badge connected">
+                    <span class="badge-icon">⬡</span>
+                    <span class="badge-dot"></span>
+                    MAE Console
+                </a>
+                <a href="megacorp.html" class="platform-badge connected">
+                    <span class="badge-icon">M</span>
+                    <span class="badge-dot"></span>
+                    MAE MegaCorp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── STATS ── -->
+    <div class="page-section" style="padding-top:40px;padding-bottom:0;">
+        <div class="stats-row">
+            <div class="stat-cell">
+                <div class="stat-num" id="statRepos">—</div>
+                <div class="stat-lbl">GitHub Repos</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-num" id="statFollowers">—</div>
+                <div class="stat-lbl">Followers</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-num">4+</div>
+                <div class="stat-lbl">AI Platforms</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-num">2024</div>
+                <div class="stat-lbl">MAE Founded</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <section>
+        <div class="page-section">
+            <div class="section-eyebrow">About</div>
+            <h2 class="section-title">Commander. Builder. Operator.</h2>
+            <hr class="section-rule">
+            <div class="section-body" style="max-width:800px;">
+                <p style="margin-bottom:16px;">
+                    I'm Caquan "Cue" Palmer — software architect, AI systems integrator, and drone operations specialist.
+                    I built <strong style="color:var(--accent);">MAE (Modular Adaptive Entity)</strong> as a permanent tactical AI copilot:
+                    a real-time command interface integrating Anthropic Claude, Perplexity Sonar, and persistent memory
+                    across web, mobile, and desktop platforms.
+                </p>
+                <p style="margin-bottom:16px;">
+                    My work sits at the intersection of AI-first software architecture, aerial intelligence,
+                    and operational systems design. I ship products that solve real problems — from full-stack
+                    Java/Spring Boot APIs to Python automation pipelines to client-side PWAs with offline-first
+                    intelligence.
+                </p>
+                <p>
+                    Through <strong style="color:var(--accent);">MAE MegaCorp</strong>, I deliver AI consulting,
+                    drone aerial services, and custom software solutions. I believe technology should serve the
+                    operator — not the other way around.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── EXPERIENCE ── -->
+    <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Experience</div>
+            <h2 class="section-title">Career Timeline</h2>
+            <hr class="section-rule">
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024 — Present</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">Founder &amp; Chief Architect</div>
+                        <div class="timeline-org">MAE MEGACORP</div>
+                        <div class="timeline-desc">
+                            Founded MAE MegaCorp to deliver AI-powered software solutions, drone aerial services,
+                            and systems integration. Built the MAE Tactical Interface — a multi-platform AI copilot
+                            integrating Anthropic Claude and Perplexity Sonar with real-time WebSocket communication,
+                            persistent memory, and cross-platform deployment (Railway, Heroku, GitHub Pages, iOS PWA).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 — Present</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">Drone Operations Lead</div>
+                        <div class="timeline-org">AERIAL INTELLIGENCE DIVISION</div>
+                        <div class="timeline-desc">
+                            Certified UAV operator specializing in cinematic aerial photography and videography.
+                            Producing high-resolution drone footage for commercial, real estate, and creative projects.
+                            Integrating Google Drive cloud workflows with web-based gallery delivery systems.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2022 — Present</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">Full-Stack Software Engineer</div>
+                        <div class="timeline-org">INDEPENDENT / CONTRACT</div>
+                        <div class="timeline-desc">
+                            Designing and delivering full-stack applications across Java (Spring Boot 3.x, Java 21),
+                            Python (Flask, FastAPI), and JavaScript (vanilla + modern tooling).
+                            Expertise in REST APIs, WebSocket real-time systems, cloud deployment, and AI/LLM integration.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2021 — 2022</div>
+                    <div class="timeline-content">
+                        <div class="timeline-role">AI Systems Integrator</div>
+                        <div class="timeline-org">EARLY-STAGE AI / RESEARCH</div>
+                        <div class="timeline-desc">
+                            Early adoption and integration of large language model APIs into production workflows.
+                            Developed custom system prompts, tool-use pipelines, and context management strategies
+                            for enterprise and personal AI assistant deployments.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SKILLS ── -->
+    <section class="skills-section" style="border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Skills &amp; Stack</div>
+            <h2 class="section-title">Technical Arsenal</h2>
+            <hr class="section-rule">
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:24px;">
+                <div class="skills-category">
+                    <div class="skills-category-label">Languages</div>
+                    <div class="skills-tags">
+                        <span class="skill-tag highlight">Java 21</span>
+                        <span class="skill-tag highlight">Python</span>
+                        <span class="skill-tag highlight">JavaScript</span>
+                        <span class="skill-tag">Bash</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-label">Frameworks &amp; Tools</div>
+                    <div class="skills-tags">
+                        <span class="skill-tag highlight">Spring Boot 3.x</span>
+                        <span class="skill-tag">Flask</span>
+                        <span class="skill-tag">WebSocket / STOMP</span>
+                        <span class="skill-tag">Maven</span>
+                        <span class="skill-tag">PWA / Service Workers</span>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-label">AI &amp; Intelligence</div>
+                    <div class="skills-tags">
+                        <span class="skill-tag highlight">Anthropic Claude</span>
+                        <span class="skill-tag highlight">Perplexity Sonar</span>
+                        <span class="skill-tag">LLM Integration</span>
+                        <span class="skill-tag">System Prompt Design</span>
+                        <span class="skill-tag">Context Management</span>
+                        <span class="skill-tag">Prompt Engineering</span>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-label">Cloud &amp; DevOps</div>
+                    <div class="skills-tags">
+                        <span class="skill-tag highlight">Railway</span>
+                        <span class="skill-tag">Heroku</span>
+                        <span class="skill-tag">GitHub Pages</span>
+                        <span class="skill-tag">GitHub Actions</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Nixpacks</span>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-label">Drone &amp; Aerial</div>
+                    <div class="skills-tags">
+                        <span class="skill-tag highlight">UAV Operations</span>
+                        <span class="skill-tag highlight">Aerial Photography</span>
+                        <span class="skill-tag">4K Cinematography</span>
+                        <span class="skill-tag">Flight Planning</span>
+                        <span class="skill-tag">Google Drive Workflow</span>
+                    </div>
+                </div>
+
+                <div class="skills-category">
+                    <div class="skills-category-label">Platforms &amp; Sync</div>
+                    <div class="skills-tags">
+                        <span class="skill-tag highlight">GitHub</span>
+                        <span class="skill-tag">Notion</span>
+                        <span class="skill-tag">Google Drive</span>
+                        <span class="skill-tag">LinkedIn</span>
+                        <span class="skill-tag">Railway API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FEATURED PROJECTS ── -->
+    <section>
+        <div class="page-section">
+            <div class="section-eyebrow">Featured Projects</div>
+            <h2 class="section-title">What I've Built</h2>
+            <hr class="section-rule">
+
+            <div class="grid-3">
+                <a href="index.html" class="project-card project-accent-mae">
+                    <div class="project-type">AI Interface · Spring Boot · PWA</div>
+                    <div class="project-name">MAE Cualde</div>
+                    <div class="project-desc">
+                        Modular Adaptive Entity — a real-time tactical AI copilot with WebSocket comms,
+                        persistent memory, Anthropic Claude + Perplexity Sonar integration,
+                        and offline-first PWA support. Deployed on Railway.
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">Java 21</span>
+                        <span class="project-tag">Spring Boot</span>
+                        <span class="project-tag">Claude API</span>
+                        <span class="project-tag">PWA</span>
+                    </div>
+                </a>
+
+                <a href="drone.html" class="project-card project-accent-drone">
+                    <div class="project-type">Drone Ops · Aerial · Google Drive</div>
+                    <div class="project-name">Aerial Intelligence Gallery</div>
+                    <div class="project-desc">
+                        Cinematic aerial photography and videography portfolio.
+                        High-resolution drone shots delivered via Google Drive cloud integration
+                        with web-embedded gallery and booking system.
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">UAV</span>
+                        <span class="project-tag">4K Video</span>
+                        <span class="project-tag">Google Drive</span>
+                        <span class="project-tag">Gallery</span>
+                    </div>
+                </a>
+
+                <a href="megacorp.html" class="project-card project-accent-corp">
+                    <div class="project-type">Corporation · AI · Technology</div>
+                    <div class="project-name">MAE MegaCorp</div>
+                    <div class="project-desc">
+                        Technology company delivering AI consulting, drone aerial services,
+                        full-stack software development, and systems architecture.
+                        AI-first from day one.
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">AI Consulting</span>
+                        <span class="project-tag">Drone Services</span>
+                        <span class="project-tag">Software</span>
+                        <span class="project-tag">Systems</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── LIVE GITHUB DATA ── -->
+    <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Live Data</div>
+            <h2 class="section-title">GitHub Activity</h2>
+            <hr class="section-rule">
+
+            <div class="github-widget">
+                <div class="github-widget-header">
+                    <div class="github-live-dot"></div>
+                    <span class="github-widget-title">github.com/combat1011 — Recent Repositories</span>
+                    <a href="https://github.com/combat1011" target="_blank" rel="noopener"
+                       style="font-family:var(--font-mono);font-size:0.58rem;color:var(--accent);text-decoration:none;letter-spacing:0.1em;">
+                        VIEW ALL →
+                    </a>
+                </div>
+                <div class="github-widget-body" id="githubRepos">
+                    <div class="github-loading">[FETCHING GITHUB DATA...]</div>
+                </div>
+            </div>
+
+            <div style="margin-top:16px;" class="notice">
+                ◈ Live data pulled from GitHub public API. Updates in real-time each page load.
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CONNECT / CONTACT ── -->
+    <section>
+        <div class="page-section">
+            <div class="section-eyebrow">Connect</div>
+            <h2 class="section-title">Let's Work Together</h2>
+            <hr class="section-rule">
+            <p class="section-body" style="margin-bottom:28px;">
+                Available for AI systems consulting, drone aerial services, full-stack software projects,
+                and strategic technology partnerships. Reach out through any connected platform.
+            </p>
+
+            <div class="platform-grid">
+                <a href="https://github.com/combat1011" target="_blank" rel="noopener"
+                   class="platform-badge connected">
+                    <span class="badge-icon">⌥</span>
+                    <span class="badge-dot"></span>
+                    GitHub @combat1011
+                </a>
+                <span class="platform-badge" onclick="openLinkedIn()" style="cursor:pointer;">
+                    <span class="badge-icon">in</span>
+                    <span class="badge-dot"></span>
+                    LinkedIn Profile
+                </span>
+                <span class="platform-badge" onclick="alert('Notion workspace — set your URL in platform-sync.js')">
+                    <span class="badge-icon">N</span>
+                    <span class="badge-dot"></span>
+                    Notion Workspace
+                </span>
+                <a href="drone.html" class="platform-badge connected">
+                    <span class="badge-icon">◉</span>
+                    <span class="badge-dot"></span>
+                    Drone Portfolio
+                </a>
+                <a href="index.html" class="platform-badge connected">
+                    <span class="badge-icon">⬡</span>
+                    <span class="badge-dot"></span>
+                    MAE Console
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="page-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>MAE MEGACORP</strong> — Caquan "Cue" Palmer · @combat1011
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Console</a>
+                <a href="profile.html">Profile</a>
+                <a href="drone.html">Drone</a>
+                <a href="megacorp.html">MegaCorp</a>
+                <a href="https://github.com/combat1011/mae-cualde" target="_blank">Source</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/platform-sync.js"></script>
+    <script>
+        // ── Platform URL Config (update these with your actual URLs) ──
+        const LINKEDIN_URL  = ''; // e.g. 'https://linkedin.com/in/yourprofile'
+        const NOTION_URL    = ''; // e.g. 'https://notion.so/yourworkspace'
+        const GDRIVE_URL    = ''; // e.g. 'https://drive.google.com/drive/folders/YOUR_FOLDER'
+
+        function openLinkedIn() {
+            if (LINKEDIN_URL) {
+                window.open(LINKEDIN_URL, '_blank', 'noopener');
+            } else {
+                const url = prompt('Enter your LinkedIn URL to save it:');
+                if (url && url.includes('linkedin.com')) {
+                    localStorage.setItem('mae_linkedin_url', url);
+                    window.open(url, '_blank', 'noopener');
+                }
+            }
+        }
+
+        // ── Boot ──
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLinkedIn = localStorage.getItem('mae_linkedin_url');
+            if (savedLinkedIn || LINKEDIN_URL) {
+                const badge = document.getElementById('linkedinBadge');
+                if (badge) badge.classList.add('connected');
+            }
+
+            // Load platform sync
+            if (typeof initPlatformSync === 'function') {
+                initPlatformSync({
+                    githubUser: 'combat1011',
+                    reposTarget: 'githubRepos',
+                    statsRepos: 'statRepos',
+                    statsFollowers: 'statFollowers'
+                });
+            }
+        });
+    </script>
+</body>
+</html>

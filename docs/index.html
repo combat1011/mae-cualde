@@ -13,6 +13,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        /* Compact site-nav for tactical interface */
+        .site-nav {
+            background: rgba(8, 10, 8, 0.98);
+            border-bottom: 1px solid var(--border);
+        }
+        /* Keep body/html flex column so existing layout stays intact */
+        body { display: flex; flex-direction: column; }
+    </style>
 </head>
 <body>
 
@@ -40,6 +50,20 @@
             </p>
         </div>
     </div>
+
+    <!-- ── SITE NAV ── -->
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand" style="text-decoration:none;">
+            <span class="nav-logo">MAE</span>
+            <span class="nav-wordmark">MEGACORP</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html"    class="nav-link active">Console</a>
+            <a href="profile.html"  class="nav-link">Profile</a>
+            <a href="drone.html"    class="nav-link">Drone</a>
+            <a href="megacorp.html" class="nav-link">MegaCorp</a>
+        </div>
+    </nav>
 
     <!-- ── HEADER ── -->
     <header class="mae-header">
@@ -154,6 +178,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 </script>
+    <script src="js/platform-sync.js"></script>
     <script src="js/mae-static.js"></script>
 </body>
 </html>

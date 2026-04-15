@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aerial Intelligence — Drone Photography &amp; Videography by Caquan 'Cue' Palmer. Cinematic 4K aerial shots from Google Drive.">
+    <meta property="og:title" content="Aerial Intelligence — Drone Portfolio">
+    <meta property="og:description" content="Cinematic aerial photography &amp; videography by MAE MegaCorp">
+    <meta name="theme-color" content="#38bdf8">
+    <title>Aerial Intelligence — Drone Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        /* ── DRONE-SPECIFIC OVERRIDES ── */
+        :root {
+            --bg-primary:     #060810;
+            --bg-secondary:   #0a0d14;
+            --bg-card:        #0d1018;
+            --accent:         #38bdf8;
+            --accent-dim:     #0ea5e9;
+            --accent-glow:    rgba(56, 189, 248, 0.12);
+            --text-primary:   #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --border:         #141c2a;
+            --border-active:  #38bdf8;
+            --font-mono:      'Share Tech Mono', monospace;
+            --font-display:   'Rajdhani', sans-serif;
+        }
+
+        body { background: var(--bg-primary); }
+
+        /* ── NAV override for drone theme ── */
+        .site-nav { background: rgba(6, 8, 16, 0.96); border-color: var(--border); }
+        .nav-logo  { color: var(--accent); text-shadow: 0 0 20px rgba(56, 189, 248, 0.35); }
+        .nav-link.active { color: var(--accent); border-color: var(--border-active); background: var(--accent-glow); }
+        .nav-link:hover  { color: var(--accent); background: var(--accent-glow); }
+
+        /* ── CINEMATIC HERO ── */
+        .drone-hero {
+            position: relative;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 28px 64px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(to bottom, #060810 0%, #080d18 40%, #060810 100%);
+        }
+
+        .drone-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.06) 0%, transparent 60%),
+                linear-gradient(rgba(56, 189, 248, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+            pointer-events: none;
+        }
+
+        .drone-hero-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.4));
+            animation: drone-float 4s ease-in-out infinite;
+        }
+
+        @keyframes drone-float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        .drone-hero-tag {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--accent);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .drone-hero-title {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 40px rgba(0,0,0,0.6);
+        }
+
+        .drone-hero-title span {
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+        }
+
+        .drone-hero-sub {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .drone-hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .drone-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent);
+            color: #060810;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.18s, box-shadow 0.18s;
+            box-shadow: 0 0 24px rgba(56, 189, 248, 0.25);
+        }
+
+        .drone-btn:hover {
+            background: var(--accent-dim);
+            box-shadow: 0 0 36px rgba(56, 189, 248, 0.4);
+        }
+
+        .drone-btn.ghost {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--border-active);
+            box-shadow: none;
+        }
+
+        .drone-btn.ghost:hover {
+            background: var(--accent-glow);
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+        }
+
+        /* ── GALLERY ── */
+        .gallery-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .filter-btn {
+            padding: 5px 14px;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: border-color 0.18s, color 0.18s, background 0.18s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .gallery-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color 0.18s, box-shadow 0.18s, transform 0.15s;
+        }
+
+        .gallery-item:hover {
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 8px 40px rgba(56, 189, 248, 0.07);
+            transform: translateY(-2px);
+        }
+
+        .gallery-embed {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .gallery-embed iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .gallery-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #0d1018 0%, #0a1020 100%);
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+
+        .gallery-placeholder:hover { background: linear-gradient(135deg, #0f1220 0%, #0d1528 100%); }
+
+        .gallery-placeholder-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.3));
+        }
+
+        .gallery-placeholder-text {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            letter-spacing: 0.18em;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .gallery-placeholder-text strong {
+            display: block;
+            color: var(--accent);
+            font-size: 0.65rem;
+            margin-bottom: 4px;
+        }
+
+        .gallery-item-meta {
+            padding: 14px 16px;
+        }
+
+        .gallery-item-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .gallery-item-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .gallery-item-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-tag {
+            font-family: var(--font-mono);
+            font-size: 0.56rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            padding: 2px 7px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 2px;
+        }
+
+        /* ── SERVICES ── */
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--accent);
+            border-radius: var(--card-radius);
+            padding: 28px 24px;
+            transition: border-color 0.18s, box-shadow 0.18s;
+        }
+
+        .service-card:hover {
+            box-shadow: 0 4px 32px rgba(56, 189, 248, 0.07);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 14px;
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));
+        }
+
+        .service-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .service-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin-bottom: 16px;
+        }
+
+        .service-price {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+        }
+
+        /* ── SPECS ── */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+        }
+
+        .spec-cell {
+            background: var(--bg-card);
+            padding: 18px 16px;
+        }
+
+        .spec-label {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .spec-value {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* ── SECTION RULE override ── */
+        .section-rule { background: var(--accent); box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+
+        /* ── CTA OVERRIDE ── */
+        .cta-btn { background: var(--accent); color: #060810; box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        .cta-btn:hover { background: var(--accent-dim); box-shadow: 0 0 28px rgba(56, 189, 248, 0.35); }
+        .cta-btn.ghost { background: transparent; color: var(--accent); border-color: var(--border-active); }
+        .cta-btn.ghost:hover { background: var(--accent-glow); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 700px) {
+            .drone-hero-title { font-size: 2.2rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="page-wrap">
+
+    <!-- ── NAVIGATION ── -->
+    <nav class="site-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="nav-logo">MAE</span>
+            <span class="nav-wordmark">MEGACORP</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html"    class="nav-link">Console</a>
+            <a href="profile.html"  class="nav-link">Profile</a>
+            <a href="drone.html"    class="nav-link active">Drone</a>
+            <a href="megacorp.html" class="nav-link">MegaCorp</a>
+        </div>
+    </nav>
+
+    <!-- ── CINEMATIC HERO ── -->
+    <section class="drone-hero">
+        <div class="drone-hero-bg"></div>
+        <div class="drone-hero-icon">⬡</div>
+        <div class="drone-hero-tag">MAE MegaCorp — Aerial Intelligence Division</div>
+        <h1 class="drone-hero-title">Eyes Above.<br><span>Stories Below.</span></h1>
+        <p class="drone-hero-sub">
+            Cinematic 4K aerial photography and videography.
+            Every frame captured with precision — from commercial real estate to artistic landscape.
+        </p>
+        <div class="drone-hero-actions">
+            <a href="#gallery" class="drone-btn">View Portfolio</a>
+            <a href="#book" class="drone-btn ghost">Book a Shoot</a>
+        </div>
+    </section>
+
+    <!-- ── STATS BAR ── -->
+    <div style="border-bottom:1px solid var(--border); background:var(--bg-secondary);">
+        <div class="page-section" style="padding-top:28px;padding-bottom:28px;">
+            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden;">
+                <div style="background:var(--bg-card);padding:18px;text-align:center;">
+                    <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--accent);">4K</div>
+                    <div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--text-muted);letter-spacing:0.16em;margin-top:4px;">RESOLUTION</div>
+                </div>
+                <div style="background:var(--bg-card);padding:18px;text-align:center;">
+                    <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--accent);">60fps</div>
+                    <div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--text-muted);letter-spacing:0.16em;margin-top:4px;">FRAME RATE</div>
+                </div>
+                <div style="background:var(--bg-card);padding:18px;text-align:center;">
+                    <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--accent);">400m</div>
+                    <div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--text-muted);letter-spacing:0.16em;margin-top:4px;">MAX ALTITUDE</div>
+                </div>
+                <div style="background:var(--bg-card);padding:18px;text-align:center;">
+                    <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--accent);font-size:1.4rem;">Drive</div>
+                    <div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--text-muted);letter-spacing:0.16em;margin-top:4px;">CLOUD DELIVERY</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── GALLERY ── -->
+    <section id="gallery">
+        <div class="page-section">
+            <div class="section-eyebrow">Portfolio</div>
+            <h2 class="section-title">Aerial Gallery</h2>
+            <hr class="section-rule">
+
+            <!-- Filter controls -->
+            <div class="gallery-controls">
+                <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+                <button class="filter-btn" onclick="filterGallery('video', this)">Video</button>
+                <button class="filter-btn" onclick="filterGallery('photo', this)">Photography</button>
+                <button class="filter-btn" onclick="filterGallery('real-estate', this)">Real Estate</button>
+                <button class="filter-btn" onclick="filterGallery('landscape', this)">Landscape</button>
+            </div>
+
+            <div class="notice" style="margin-bottom:20px;">
+                ◈ <strong>Google Drive Integration:</strong> Add your drone shot file IDs to
+                <code style="color:var(--accent);">js/platform-sync.js</code> →
+                <code style="color:var(--accent);">DRONE_SHOTS</code> array. Videos embed automatically.
+            </div>
+
+            <!-- Gallery grid — populated by platform-sync.js or static fallbacks -->
+            <div class="gallery-grid" id="droneGallery">
+
+                <!-- Slot 1 — Video placeholder (replace FILE_ID with your Google Drive ID) -->
+                <div class="gallery-item" data-category="video landscape">
+                    <div class="gallery-embed">
+                        <div class="gallery-placeholder" id="slot1"
+                             onclick="loadDriveEmbed(this, 'YOUR_GDRIVE_FILE_ID_1')">
+                            <div class="gallery-placeholder-icon">▶</div>
+                            <div class="gallery-placeholder-text">
+                                <strong>AERIAL SHOT 01</strong>
+                                Click to load from Google Drive
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-meta">
+                        <div class="gallery-item-title">Landscape Overview</div>
+                        <div class="gallery-item-desc">Wide aerial sweep — landscape &amp; horizon</div>
+                        <div class="gallery-item-tags">
+                            <span class="gallery-tag">4K</span>
+                            <span class="gallery-tag">Landscape</span>
+                            <span class="gallery-tag">Google Drive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot 2 -->
+                <div class="gallery-item" data-category="video real-estate">
+                    <div class="gallery-embed">
+                        <div class="gallery-placeholder" id="slot2"
+                             onclick="loadDriveEmbed(this, 'YOUR_GDRIVE_FILE_ID_2')">
+                            <div class="gallery-placeholder-icon">▶</div>
+                            <div class="gallery-placeholder-text">
+                                <strong>AERIAL SHOT 02</strong>
+                                Click to load from Google Drive
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-meta">
+                        <div class="gallery-item-title">Property Flyover</div>
+                        <div class="gallery-item-desc">Real estate aerial walk-around</div>
+                        <div class="gallery-item-tags">
+                            <span class="gallery-tag">Real Estate</span>
+                            <span class="gallery-tag">4K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot 3 -->
+                <div class="gallery-item" data-category="photo landscape">
+                    <div class="gallery-embed">
+                        <div class="gallery-placeholder" id="slot3"
+                             onclick="loadDriveEmbed(this, 'YOUR_GDRIVE_FILE_ID_3')">
+                            <div class="gallery-placeholder-icon">◉</div>
+                            <div class="gallery-placeholder-text">
+                                <strong>AERIAL PHOTO 01</strong>
+                                Click to load from Google Drive
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-meta">
+                        <div class="gallery-item-title">Golden Hour</div>
+                        <div class="gallery-item-desc">Sunset aerial photography — golden hour</div>
+                        <div class="gallery-item-tags">
+                            <span class="gallery-tag">Photography</span>
+                            <span class="gallery-tag">Landscape</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot 4 -->
+                <div class="gallery-item" data-category="video landscape">
+                    <div class="gallery-embed">
+                        <div class="gallery-placeholder" id="slot4"
+                             onclick="loadDriveEmbed(this, 'YOUR_GDRIVE_FILE_ID_4')">
+                            <div class="gallery-placeholder-icon">▶</div>
+                            <div class="gallery-placeholder-text">
+                                <strong>AERIAL SHOT 03</strong>
+                                Click to load from Google Drive
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-meta">
+                        <div class="gallery-item-title">Cinematic Pan</div>
+                        <div class="gallery-item-desc">Slow cinematic pan at altitude</div>
+                        <div class="gallery-item-tags">
+                            <span class="gallery-tag">Cinematic</span>
+                            <span class="gallery-tag">4K 60fps</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot 5 -->
+                <div class="gallery-item" data-category="photo real-estate">
+                    <div class="gallery-embed">
+                        <div class="gallery-placeholder" id="slot5"
+                             onclick="loadDriveEmbed(this, 'YOUR_GDRIVE_FILE_ID_5')">
+                            <div class="gallery-placeholder-icon">◉</div>
+                            <div class="gallery-placeholder-text">
+                                <strong>AERIAL PHOTO 02</strong>
+                                Click to load from Google Drive
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-meta">
+                        <div class="gallery-item-title">Top-Down Property</div>
+                        <div class="gallery-item-desc">Bird's-eye property documentation</div>
+                        <div class="gallery-item-tags">
+                            <span class="gallery-tag">Real Estate</span>
+                            <span class="gallery-tag">Top-Down</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot 6 -->
+                <div class="gallery-item" data-category="video landscape">
+                    <div class="gallery-embed">
+                        <div class="gallery-placeholder" id="slot6"
+                             onclick="loadDriveEmbed(this, 'YOUR_GDRIVE_FILE_ID_6')">
+                            <div class="gallery-placeholder-icon">▶</div>
+                            <div class="gallery-placeholder-text">
+                                <strong>AERIAL SHOT 04</strong>
+                                Click to load from Google Drive
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-meta">
+                        <div class="gallery-item-title">Reveal Shot</div>
+                        <div class="gallery-item-desc">Dramatic reveal ascent from ground level</div>
+                        <div class="gallery-item-tags">
+                            <span class="gallery-tag">Cinematic</span>
+                            <span class="gallery-tag">Reveal</span>
+                            <span class="gallery-tag">4K</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Load More / Connect Drive -->
+            <div style="text-align:center; margin-top:32px;">
+                <button class="drone-btn ghost" onclick="connectGoogleDrive()">
+                    ▲ Connect Google Drive Folder
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SERVICES ── -->
+    <section style="background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Services</div>
+            <h2 class="section-title">What We Deliver</h2>
+            <hr class="section-rule">
+
+            <div class="grid-3">
+                <div class="service-card">
+                    <div class="service-icon">🎬</div>
+                    <div class="service-name">Cinematic Video</div>
+                    <div class="service-desc">
+                        4K/60fps aerial video production with color grading, stabilization,
+                        and cinematic framing. Delivered via Google Drive — ready for use.
+                    </div>
+                    <div class="service-price">→ VIDEO PACKAGE</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📸</div>
+                    <div class="service-name">Aerial Photography</div>
+                    <div class="service-desc">
+                        High-resolution aerial stills for real estate, construction progress,
+                        commercial marketing, and artistic projects. RAW + edited files delivered.
+                    </div>
+                    <div class="service-price">→ PHOTO PACKAGE</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <div class="service-name">Real Estate Aerial</div>
+                    <div class="service-desc">
+                        Property overviews, neighborhood context, and walk-around flyovers.
+                        Fast turnaround, cloud delivery, MLS-ready formats.
+                    </div>
+                    <div class="service-price">→ REAL ESTATE PACKAGE</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🗺️</div>
+                    <div class="service-name">Site Mapping</div>
+                    <div class="service-desc">
+                        Aerial surveys and mapping for construction, land development,
+                        and inspection workflows. Orthomosaic and 3D outputs available.
+                    </div>
+                    <div class="service-price">→ MAPPING PACKAGE</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🌅</div>
+                    <div class="service-name">Event Coverage</div>
+                    <div class="service-desc">
+                        Live events, grand openings, outdoor festivals, and
+                        milestones captured from the sky. Delivers a perspective
+                        ground-level cameras can't touch.
+                    </div>
+                    <div class="service-price">→ EVENT PACKAGE</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⬡</div>
+                    <div class="service-name">AI-Enhanced Edit</div>
+                    <div class="service-desc">
+                        MAE MegaCorp exclusive: AI-assisted editing, automated highlight reels,
+                        and smart tagging of footage. Powered by MAE intelligence infrastructure.
+                    </div>
+                    <div class="service-price">→ AI EDIT PACKAGE</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── EQUIPMENT / SPECS ── -->
+    <section>
+        <div class="page-section">
+            <div class="section-eyebrow">Equipment</div>
+            <h2 class="section-title">Flight Specs</h2>
+            <hr class="section-rule">
+
+            <div class="specs-grid">
+                <div class="spec-cell">
+                    <div class="spec-label">Video Resolution</div>
+                    <div class="spec-value">4K / 60fps</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Photo Resolution</div>
+                    <div class="spec-value">48MP+</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Max Altitude</div>
+                    <div class="spec-value">400m AGL</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Range</div>
+                    <div class="spec-value">12km+</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Stabilization</div>
+                    <div class="spec-value">3-Axis Gimbal</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Obstacle Avoidance</div>
+                    <div class="spec-value">Omnidirectional</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Storage</div>
+                    <div class="spec-value">RAW + H.265</div>
+                </div>
+                <div class="spec-cell">
+                    <div class="spec-label">Delivery</div>
+                    <div class="spec-value">Google Drive</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── BOOK / CONTACT ── -->
+    <section id="book" style="background:var(--bg-secondary); border-top:1px solid var(--border);">
+        <div class="page-section">
+            <div class="section-eyebrow">Contact</div>
+            <h2 class="section-title">Book a Shoot</h2>
+            <hr class="section-rule">
+
+            <p class="section-body" style="margin-bottom:32px;">
+                Ready to capture something from above? Reach out through any channel below.
+                All projects include a pre-flight consultation, location scouting support,
+                and cloud delivery via Google Drive.
+            </p>
+
+            <div class="platform-grid">
+                <a href="profile.html" class="platform-badge connected"
+                   style="border-color:rgba(56,189,248,0.3);color:var(--text-secondary);">
+                    <span class="badge-icon">◈</span>
+                    <span class="badge-dot" style="background:var(--accent);box-shadow:0 0 6px rgba(56,189,248,0.5);"></span>
+                    Contact via Profile
+                </a>
+                <a href="megacorp.html" class="platform-badge connected"
+                   style="border-color:rgba(56,189,248,0.3);color:var(--text-secondary);">
+                    <span class="badge-icon">M</span>
+                    <span class="badge-dot" style="background:var(--accent);box-shadow:0 0 6px rgba(56,189,248,0.5);"></span>
+                    MAE MegaCorp
+                </a>
+                <a href="https://github.com/combat1011" target="_blank" rel="noopener" class="platform-badge">
+                    <span class="badge-icon">⌥</span>
+                    <span class="badge-dot"></span>
+                    GitHub @combat1011
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="page-footer" style="border-color:var(--border);background:#040608;">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>MAE MEGACORP</strong> — Aerial Intelligence Division
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Console</a>
+                <a href="profile.html">Profile</a>
+                <a href="drone.html">Drone</a>
+                <a href="megacorp.html">MegaCorp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/platform-sync.js"></script>
+    <script>
+        // ── Google Drive File IDs (add yours here) ──
+        // DRONE_SHOTS in platform-sync.js, or configure inline:
+        const DRONE_CONFIG = {
+            // Replace with actual Google Drive file IDs from your Drive
+            // Format: 'https://drive.google.com/file/d/FILE_ID/view'
+            shots: [
+                { id: 'YOUR_GDRIVE_FILE_ID_1', slot: 'slot1', type: 'video' },
+                { id: 'YOUR_GDRIVE_FILE_ID_2', slot: 'slot2', type: 'video' },
+                { id: 'YOUR_GDRIVE_FILE_ID_3', slot: 'slot3', type: 'photo' },
+                { id: 'YOUR_GDRIVE_FILE_ID_4', slot: 'slot4', type: 'video' },
+                { id: 'YOUR_GDRIVE_FILE_ID_5', slot: 'slot5', type: 'photo' },
+                { id: 'YOUR_GDRIVE_FILE_ID_6', slot: 'slot6', type: 'video' }
+            ]
+        };
+
+        // Auto-load shots if real file IDs are configured
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initDroneGallery === 'function') {
+                initDroneGallery(DRONE_CONFIG);
+            }
+
+            // Check localStorage for saved Drive folder URL
+            const savedFolder = localStorage.getItem('mae_gdrive_folder');
+            if (savedFolder) {
+                const badge = document.querySelector('[data-badge="gdrive"]');
+                if (badge) badge.classList.add('connected');
+            }
+        });
+
+        // Load a Google Drive embed when placeholder is clicked
+        function loadDriveEmbed(placeholder, fileId) {
+            if (fileId.startsWith('YOUR_')) {
+                // Show prompt to enter real file ID
+                const id = prompt(
+                    'Enter your Google Drive file ID:\n' +
+                    '(Get it from your Drive share URL: drive.google.com/file/d/FILE_ID/view)'
+                );
+                if (!id || id.startsWith('YOUR_')) return;
+                fileId = id.trim();
+            }
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+            iframe.allow = 'autoplay';
+            iframe.loading = 'lazy';
+            placeholder.parentElement.innerHTML = '';
+            placeholder.parentElement.appendChild(iframe);
+        }
+
+        // Gallery filter
+        function filterGallery(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                if (category === 'all' || item.dataset.category.includes(category)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Connect Google Drive folder
+        function connectGoogleDrive() {
+            const url = prompt(
+                'Enter your Google Drive folder URL:\n' +
+                'e.g. https://drive.google.com/drive/folders/YOUR_FOLDER_ID'
+            );
+            if (url && url.includes('drive.google.com')) {
+                localStorage.setItem('mae_gdrive_folder', url);
+                alert('Google Drive folder saved! Your drone shots will load from this folder.');
+                // Extract folder ID and open in new tab
+                window.open(url, '_blank', 'noopener');
+            }
+        }
+    </script>
+</body>
+</html>
