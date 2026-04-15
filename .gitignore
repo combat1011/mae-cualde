@@ -21,4 +21,6 @@ mae-memory.json
 application-local.properties
 .env
 *.env
-# Override in env: ANTHROPIC_API_KEY, PERPLEXITY_API_KEY
+.notion.json
+.gdrive.json
+node_modules/

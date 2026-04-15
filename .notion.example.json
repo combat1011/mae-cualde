@@ -1,0 +1,20 @@
+{
+  "_instructions": [
+    "1. Copy this file to .notion.json (it is gitignored — safe to store your key here)",
+    "2. Fill in your Notion integration token and database IDs below",
+    "3. Run:  node scripts/notion-sync.js",
+    "4. Run:  git add docs/data && git push",
+    "",
+    "Get your integration token at: https://www.notion.so/my-integrations",
+    "Database IDs are the 32-char hex string in the Notion database URL.",
+    "Share each database with your integration: open DB → ... → Connections"
+  ],
+  "api_key": "secret_REPLACE_WITH_YOUR_NOTION_INTEGRATION_TOKEN",
+  "watch_interval_min": 10,
+  "databases": {
+    "profile": "REPLACE_WITH_PROFILE_DB_ID",
+    "drone":   "REPLACE_WITH_DRONE_DB_ID",
+    "tasks":   "REPLACE_WITH_TASKS_DB_ID",
+    "mems":    "REPLACE_WITH_MEMS_DB_ID"
+  }
+}
