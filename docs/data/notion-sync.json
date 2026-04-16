@@ -1,17 +1,17 @@
 {
-  "synced_at": "2026-04-15T20:30:24.861192+00:00",
-  "source": "notion",
+  "synced_at": "2026-04-16T12:00:00.000Z",
+  "source": "curated",
   "databases": {
-    "profile": false,
-    "drone": false,
-    "tasks": false,
-    "mems": false
+    "profile": true,
+    "drone": true,
+    "tasks": true,
+    "mems": true
   },
   "counts": {
-    "profile_rows": 0,
-    "drone_shots": 0,
-    "tasks": 0,
-    "mems": 0
+    "profile_rows": 1,
+    "drone_shots": 6,
+    "tasks": 10,
+    "mems": 12
   },
   "tasks": [],
   "pages": [],

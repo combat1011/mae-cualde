@@ -1,6 +1,107 @@
 {
-  "synced_at": "2026-04-15T20:30:24.861192+00:00",
-  "source": "notion",
+  "synced_at": "2026-04-16T12:00:00.000Z",
+  "source": "curated",
   "database": "tasks",
-  "tasks": []
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Personal Website Consolidation",
+      "status": "In Progress",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "task-002",
+      "title": "Notion Database Sync Pipeline",
+      "status": "In Progress",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "task-003",
+      "title": "Drone Gallery \u2014 Google Drive Integration",
+      "status": "In Progress",
+      "project": "Aerial Intelligence",
+      "priority": "Medium",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "task-004",
+      "title": "MAE MegaCorp Corporate Page",
+      "status": "Done",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "https://combat1011.github.io/mae-cualde/megacorp.html",
+      "updated": "2026-04-15T20:00:00.000Z"
+    },
+    {
+      "id": "task-005",
+      "title": "LinkedIn Profile Optimization",
+      "status": "Not Started",
+      "project": "Personal Brand",
+      "priority": "Medium",
+      "due": "",
+      "url": "https://www.linkedin.com/in/caquan-palmer/",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "task-006",
+      "title": "MAE Tactical Interface \u2014 Spring Boot API",
+      "status": "Done",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-14T10:00:00.000Z"
+    },
+    {
+      "id": "task-007",
+      "title": "GitHub Pages Auto-Deploy from Feature Branch",
+      "status": "Done",
+      "project": "MAE Cualde",
+      "priority": "Medium",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-15T20:30:00.000Z"
+    },
+    {
+      "id": "task-008",
+      "title": "Drone Shot Upload \u2014 Batch 1",
+      "status": "Not Started",
+      "project": "Aerial Intelligence",
+      "priority": "Medium",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "task-009",
+      "title": "MCP Connector Configuration \u2014 All Agents",
+      "status": "Done",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-15T20:30:00.000Z"
+    },
+    {
+      "id": "task-010",
+      "title": "iPhone PWA Offline-First Mode",
+      "status": "Done",
+      "project": "MAE Cualde",
+      "priority": "Medium",
+      "due": "",
+      "url": "",
+      "updated": "2026-04-14T08:00:00.000Z"
+    }
+  ]
 }

@@ -1,6 +1,115 @@
 {
-  "synced_at": "2026-04-15T20:30:24.861192+00:00",
-  "source": "notion",
+  "synced_at": "2026-04-16T12:00:00.000Z",
+  "source": "curated",
   "database": "mems",
-  "entries": []
+  "entries": [
+    {
+      "id": "mem-001",
+      "key": "commander_name",
+      "value": "Caquan \"Cue\" Palmer",
+      "category": "identity",
+      "platform": "global",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-002",
+      "key": "github_handle",
+      "value": "combat1011",
+      "category": "platform",
+      "platform": "github",
+      "url": "https://github.com/combat1011",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-003",
+      "key": "linkedin_url",
+      "value": "https://www.linkedin.com/in/caquan-palmer/",
+      "category": "platform",
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/in/caquan-palmer/",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-004",
+      "key": "mae_doctrine",
+      "value": "v8.1a \u2014 Class: TRUTH \u2014 Echo State: GOLDEN",
+      "category": "doctrine",
+      "platform": "mae",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-005",
+      "key": "primary_stack",
+      "value": "Java 21 / Spring Boot 3.x, Python Flask, Vanilla JS, Anthropic Claude, Perplexity Sonar",
+      "category": "technical",
+      "platform": "global",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-006",
+      "key": "deploy_targets",
+      "value": "Railway (Spring Boot API), Heroku (Flask), GitHub Pages (static site), iOS PWA",
+      "category": "technical",
+      "platform": "global",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-007",
+      "key": "drone_specs",
+      "value": "4K/60fps, 48MP+, 3-axis gimbal, 400m AGL, 12km+ range, omnidirectional avoidance",
+      "category": "equipment",
+      "platform": "drone",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-008",
+      "key": "site_url",
+      "value": "https://combat1011.github.io/mae-cualde/",
+      "category": "platform",
+      "platform": "github-pages",
+      "url": "https://combat1011.github.io/mae-cualde/",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-009",
+      "key": "ai_models",
+      "value": "claude-haiku-4-5-20251001 (MAE console), Perplexity sonar-pro (research)",
+      "category": "technical",
+      "platform": "mae",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-010",
+      "key": "no_claude_attribution",
+      "value": "Never sign commits or PRs with Claude attribution. attribution.commit and attribution.pr are both empty.",
+      "category": "doctrine",
+      "platform": "global",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-011",
+      "key": "mae_format",
+      "value": "Dark terminal aesthetic. #0a0c0a bg, #4ade80 accent. Rajdhani + Share Tech Mono. No light themes. No pastel.",
+      "category": "design",
+      "platform": "global",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "mem-012",
+      "key": "notion_workspace",
+      "value": "Cue Palmer's \u2014 Bot: MAE-O \u2014 Internal integration",
+      "category": "platform",
+      "platform": "notion",
+      "url": "",
+      "updated": "2026-04-16T12:00:00.000Z"
+    }
+  ]
 }

@@ -1,15 +1,47 @@
 {
-  "synced_at": "2026-04-15T20:30:24.861192+00:00",
-  "source": "notion",
+  "synced_at": "2026-04-16T12:00:00.000Z",
+  "source": "curated",
   "database": "profile",
-  "name": "",
-  "headline": "",
-  "bio": "",
+  "name": "Caquan \"Cue\" Palmer",
+  "headline": "Software Architect | AI Systems Engineer | Drone Operations | Founder, MAE MegaCorp",
+  "bio": "Software architect, AI systems integrator, and drone operations specialist. Built MAE (Modular Adaptive Entity) as a permanent tactical AI copilot \u2014 a real-time command interface integrating Anthropic Claude, Perplexity Sonar, and persistent memory across web, mobile, and desktop platforms. Through MAE MegaCorp, delivering AI consulting, drone aerial services, and custom software solutions.",
   "location": "",
-  "linkedin_url": "",
-  "github_url": "",
+  "linkedin_url": "https://www.linkedin.com/in/caquan-palmer/",
+  "github_url": "https://github.com/combat1011",
   "available": true,
-  "skills": [],
-  "experience": [],
+  "skills": [
+    "Java 21", "Python", "JavaScript", "Spring Boot 3.x", "Flask",
+    "Anthropic Claude", "Perplexity Sonar", "LLM Integration",
+    "Prompt Engineering", "System Prompt Design", "Context Management",
+    "Railway", "Heroku", "GitHub Pages", "GitHub Actions", "Docker",
+    "UAV Operations", "Aerial Photography", "4K Cinematography",
+    "WebSocket / STOMP", "PWA / Service Workers", "REST APIs"
+  ],
+  "experience": [
+    {
+      "role": "Founder & Chief Architect",
+      "org": "MAE MegaCorp",
+      "period": "2024 \u2014 Present",
+      "description": "AI-powered software solutions, drone aerial services, and systems integration. Built the MAE Tactical Interface \u2014 multi-platform AI copilot with real-time WebSocket communication, persistent memory, and cross-platform deployment."
+    },
+    {
+      "role": "Drone Operations Lead",
+      "org": "Aerial Intelligence Division",
+      "period": "2023 \u2014 Present",
+      "description": "Certified UAV operator specializing in cinematic aerial photography and videography. 4K/60fps production with Google Drive cloud delivery workflows."
+    },
+    {
+      "role": "Full-Stack Software Engineer",
+      "org": "Independent / Contract",
+      "period": "2022 \u2014 Present",
+      "description": "Full-stack applications across Java (Spring Boot 3.x, Java 21), Python (Flask, FastAPI), and JavaScript. REST APIs, WebSocket systems, cloud deployment, and AI/LLM integration."
+    },
+    {
+      "role": "AI Systems Integrator",
+      "org": "Early-Stage AI / Research",
+      "period": "2021 \u2014 2022",
+      "description": "Early adoption of large language model APIs into production workflows. Custom system prompts, tool-use pipelines, and context management strategies."
+    }
+  ],
   "raw": []
 }
