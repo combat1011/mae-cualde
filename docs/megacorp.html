@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4ade80">
+    <title>MAE MEGAcorp — Modular Adaptive Enterprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg-primary:     #0a0c0a;
+            --bg-secondary:   #111411;
+            --bg-card:        #131613;
+            --accent:         #4ade80;
+            --accent-dim:     #22c55e;
+            --accent-glow:    rgba(74,222,128,0.10);
+            --text-primary:   #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --border:         #1a241a;
+            --border-active:  #4ade80;
+            --font-mono:      'Share Tech Mono', 'Courier New', monospace;
+            --font-display:   'Rajdhani', sans-serif;
+        }
+        html, body { min-height: 100vh; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; line-height: 1.6; }
+
+        /* ── NAV ── */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav .brand { color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; text-decoration: none; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        nav .spacer { flex: 1; }
+
+        /* ── HERO ── */
+        .hero {
+            border-bottom: 1px solid var(--border);
+            padding: 72px 24px 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: 'MAE MEGACORP';
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: 14vw;
+            font-weight: 900;
+            color: rgba(74,222,128,0.03);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            letter-spacing: 4px;
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-block;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            padding: 4px 16px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--text-primary);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+        .hero-title span { color: var(--accent); }
+        .hero-sub {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            max-width: 480px;
+            margin: 0 auto 28px;
+        }
+        .hero-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 3px;
+            padding: 12px 28px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.85; }
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 3px;
+            padding: 12px 28px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-outline:hover { background: var(--accent-glow); }
+
+        /* ── LAYOUT ── */
+        .page-wrap { max-width: 1000px; margin: 0 auto; padding: 48px 16px 80px; }
+
+        /* ── SECTION ── */
+        .section { margin-bottom: 56px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header .label {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+        }
+        .section-header .line { flex: 1; height: 1px; background: var(--border); }
+
+        /* ── DIVISION GRID ── */
+        .division-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .division-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 24px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .division-card:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+        .division-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+        }
+        .division-card.green::before  { background: var(--accent); }
+        .division-card.blue::before   { background: #60a5fa; }
+        .division-card.orange::before { background: #fb923c; }
+        .division-card.cyan::before   { background: #38bdf8; }
+        .division-icon { font-size: 2rem; margin-bottom: 12px; }
+        .division-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .division-tagline { color: var(--accent); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 10px; }
+        .division-desc { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.7; }
+
+        /* ── STATS ── */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .stat-label { color: var(--text-muted); font-size: 0.65rem; letter-spacing: 1px; margin-top: 6px; }
+
+        /* ── DOCTRINE ── */
+        .doctrine-list { display: grid; gap: 12px; }
+        .doctrine-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            padding: 16px 20px;
+        }
+        .doctrine-item .d-title { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+        .doctrine-item .d-body { color: var(--text-secondary); font-size: 0.76rem; line-height: 1.6; }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* ── TICKER ── */
+        .ticker-wrap {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            padding: 8px 0;
+            margin-bottom: 48px;
+        }
+        .ticker-track {
+            display: flex;
+            gap: 64px;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+        .ticker-item { color: var(--text-muted); font-size: 0.68rem; letter-spacing: 2px; }
+        .ticker-item span { color: var(--accent); }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        @media (max-width: 600px) {
+            .hero { padding: 48px 16px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="brand" href="index.html">MAE</a>
+    <a href="profile.html">PROFILE</a>
+    <a class="active" href="megacorp.html">MEGACORP</a>
+    <a href="dronescope.html">DRONESCOPE</a>
+    <div class="spacer"></div>
+    <span style="color:var(--text-muted);font-size:0.65rem;">NIAGARA COUNTY, WNY</span>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+    <div class="hero-badge">OPERATIONAL — WNY THEATER</div>
+    <div class="hero-title">MAE <span>MEGA</span>CORP</div>
+    <div class="hero-sub">Modular Adaptive Enterprise — Veteran-owned technology, drone operations, and AI systems. Niagara County, Western New York.</div>
+    <div class="hero-cta-row">
+        <a class="btn-primary" href="index.html">LAUNCH MAE INTERFACE</a>
+        <a class="btn-outline" href="dronescope.html">DRONESCOPE OPS</a>
+    </div>
+</div>
+
+<!-- ── TICKER ── -->
+<div class="ticker-wrap">
+    <div class="ticker-track">
+        <span class="ticker-item"><span>[ECHO:GOLD]</span> SYSTEMS ONLINE</span>
+        <span class="ticker-item"><span>DRONESCOPE WNY</span> VETERAN-OWNED AERIAL OPS</span>
+        <span class="ticker-item"><span>MAE v1.0</span> MODULAR ADAPTIVE ENTITY ACTIVE</span>
+        <span class="ticker-item"><span>NIAGARA COUNTY</span> WESTERN NEW YORK</span>
+        <span class="ticker-item"><span>KinderMAE</span> EDUCATION INITIATIVES ACTIVE</span>
+        <span class="ticker-item"><span>MAE.OpenClaw</span> LOCAL LLM DIVISION DEPLOYED</span>
+        <span class="ticker-item"><span>[ECHO:GOLD]</span> SYSTEMS ONLINE</span>
+        <span class="ticker-item"><span>DRONESCOPE WNY</span> VETERAN-OWNED AERIAL OPS</span>
+        <span class="ticker-item"><span>MAE v1.0</span> MODULAR ADAPTIVE ENTITY ACTIVE</span>
+        <span class="ticker-item"><span>NIAGARA COUNTY</span> WESTERN NEW YORK</span>
+        <span class="ticker-item"><span>KinderMAE</span> EDUCATION INITIATIVES ACTIVE</span>
+        <span class="ticker-item"><span>MAE.OpenClaw</span> LOCAL LLM DIVISION DEPLOYED</span>
+    </div>
+</div>
+
+<div class="page-wrap">
+
+    <!-- ── STATS ── -->
+    <div class="section">
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-num">9</div>
+                <div class="stat-label">ACTIVE REPOSITORIES</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">4</div>
+                <div class="stat-label">DIVISIONS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">WNY</div>
+                <div class="stat-label">HOME THEATER</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">V8.1a</div>
+                <div class="stat-label">MAE DOCTRINE</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── DIVISIONS ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">DIVISIONS</span>
+            <div class="line"></div>
+        </div>
+        <div class="division-grid">
+
+            <div class="division-card green">
+                <div class="division-icon">🚁</div>
+                <div class="division-name">DroneScope WNY</div>
+                <div class="division-tagline">VETERAN-OWNED AERIAL OPERATIONS</div>
+                <div class="division-desc">
+                    FAA Part 107 drone operations, precision agriculture, aerial photography and mapping across Niagara County and Western New York.
+                    Serving farms, municipalities, and commercial clients.
+                </div>
+            </div>
+
+            <div class="division-card blue">
+                <div class="division-icon">🤖</div>
+                <div class="division-name">MAE Intelligence</div>
+                <div class="division-tagline">AI SYSTEMS &amp; DIGITAL CO-PILOT</div>
+                <div class="division-desc">
+                    Modular Adaptive Entity — combat-tested AI co-pilot built on Claude / Anthropic.
+                    Java + Python tactical interfaces, PWA, persistent memory, and offline-capable local LLM via OpenClaw.
+                </div>
+            </div>
+
+            <div class="division-card orange">
+                <div class="division-icon">📚</div>
+                <div class="division-name">KinderMAE Education</div>
+                <div class="division-tagline">NIAGARA COUNTY YOUTH PROGRAMS</div>
+                <div class="division-desc">
+                    Community education initiatives in Niagara County and WNY. Technology access, STEM programming, and veteran-led mentorship for youth.
+                </div>
+            </div>
+
+            <div class="division-card cyan">
+                <div class="division-icon">🔐</div>
+                <div class="division-name">MAE Vault</div>
+                <div class="division-tagline">ENCRYPTED ARCHIVES &amp; SECURE OPS</div>
+                <div class="division-desc">
+                    Triple-sealed encrypted scrolls, redacted archives, and secure document management. Commander-eyes-only clearance system.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── DOCTRINE ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">CORPORATE DOCTRINE — v8.1a</span>
+            <div class="line"></div>
+        </div>
+        <div class="doctrine-list">
+            <div class="doctrine-item">
+                <div class="d-title">01 — MISSION FIRST</div>
+                <div class="d-body">Every division operates under a clear mission statement. No scope creep. No half-measures. Smallest effective action that closes the gap.</div>
+            </div>
+            <div class="doctrine-item">
+                <div class="d-title">02 — VETERAN-LED</div>
+                <div class="d-body">MAE MEGAcorp is founded and operated by veterans. Service ethic, accountability, and precision apply to every operation — commercial or community.</div>
+            </div>
+            <div class="doctrine-item">
+                <div class="d-title">03 — LOCAL ROOTS, GLOBAL RANGE</div>
+                <div class="d-body">Headquartered in Niagara County, WNY. Technology and systems built here can deploy anywhere. MAE holds the line at home first.</div>
+            </div>
+            <div class="doctrine-item">
+                <div class="d-title">04 — NO FADE</div>
+                <div class="d-body">We don't go dark. Systems stay online. Commitments stay kept. From drone ops to AI co-pilot to education — MAE MEGAcorp does not abandon the field.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TECHNOLOGY STACK ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">TECHNOLOGY STACK</span>
+            <div class="line"></div>
+        </div>
+        <div class="division-grid">
+            <div class="division-card green" style="padding:16px 20px;">
+                <div style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">AI / LLM</div>
+                <div style="color:var(--text-secondary);font-size:0.76rem;line-height:1.8;">
+                    Anthropic Claude · MAE Protocol<br>
+                    Ollama / Local LLM (OpenClaw)<br>
+                    Perplexity Sonar (Intel Mode)
+                </div>
+            </div>
+            <div class="division-card green" style="padding:16px 20px;">
+                <div style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">BACKEND</div>
+                <div style="color:var(--text-secondary);font-size:0.76rem;line-height:1.8;">
+                    Java 21 · Spring Boot 3<br>
+                    Python 3 · Flask<br>
+                    WebSocket / STOMP · Railway
+                </div>
+            </div>
+            <div class="division-card green" style="padding:16px 20px;">
+                <div style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">FRONTEND</div>
+                <div style="color:var(--text-secondary);font-size:0.76rem;line-height:1.8;">
+                    HTML5 · CSS3 · Vanilla JS<br>
+                    PWA · Service Worker · Manifest<br>
+                    GitHub Pages · iPhone-ready
+                </div>
+            </div>
+            <div class="division-card green" style="padding:16px 20px;">
+                <div style="font-family:var(--font-display);font-weight:700;margin-bottom:8px;">DRONE / FIELD</div>
+                <div style="color:var(--text-secondary);font-size:0.76rem;line-height:1.8;">
+                    FAA Part 107 Certified<br>
+                    Aerial Mapping · Survey<br>
+                    Precision Agriculture · WNY
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── CONTACT / LINKS ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">CONTACT &amp; LINKS</span>
+            <div class="line"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <a style="background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:10px 18px;color:var(--text-secondary);text-decoration:none;font-size:0.72rem;letter-spacing:1px;transition:border-color 0.2s,color 0.2s;" href="https://github.com/combat1011" target="_blank"
+               onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+               onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">GITHUB</a>
+            <a style="background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:10px 18px;color:var(--text-secondary);text-decoration:none;font-size:0.72rem;letter-spacing:1px;transition:border-color 0.2s,color 0.2s;" href="profile.html"
+               onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+               onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">COMMANDER PROFILE</a>
+            <a style="background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:10px 18px;color:var(--text-secondary);text-decoration:none;font-size:0.72rem;letter-spacing:1px;transition:border-color 0.2s,color 0.2s;" href="dronescope.html"
+               onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+               onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">DRONESCOPE WNY</a>
+            <a style="background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:10px 18px;color:var(--text-secondary);text-decoration:none;font-size:0.72rem;letter-spacing:1px;" href="index.html">MAE INTERFACE</a>
+            <!-- ADD EMAIL / PHONE / OTHER CONTACT HERE -->
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    MAE MEGAcorp · Niagara County, WNY · Veteran-Owned ·
+    <a href="https://github.com/combat1011">combat1011</a> ·
+    <a href="index.html">MAE Interface</a>
+</footer>
+
+</body>
+</html>

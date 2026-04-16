@@ -9,12 +9,30 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/mae-192.png">
     <title>MAE — Tactical Interface</title>
+    <style>
+        .site-nav { background: #0a0c0a; border-bottom: 1px solid #1a241a; padding: 7px 16px; display: flex; gap: 20px; align-items: center; font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; letter-spacing: 1px; }
+        .site-nav a { color: #475569; text-decoration: none; transition: color 0.2s; }
+        .site-nav a:hover { color: #4ade80; }
+        .site-nav .brand { color: #4ade80; font-weight: 700; }
+        .site-nav .spacer { flex: 1; }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <!-- ── SITE NAV ── -->
+    <div class="site-nav">
+        <span class="brand">MAE MEGACORP</span>
+        <a href="index.html">INTERFACE</a>
+        <a href="profile.html">PROFILE</a>
+        <a href="megacorp.html">MEGACORP</a>
+        <a href="dronescope.html">DRONESCOPE</a>
+        <div class="spacer"></div>
+        <span style="color:#475569;">NIAGARA CO · WNY</span>
+    </div>
 
     <!-- ── API KEY MODAL (hidden by default) ── -->
     <div class="modal-overlay" id="keyModal" style="display:none;">

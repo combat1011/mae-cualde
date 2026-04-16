@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4ade80">
+    <title>Commander Profile — combat1011</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg-primary:     #0a0c0a;
+            --bg-secondary:   #111411;
+            --bg-card:        #131613;
+            --accent:         #4ade80;
+            --accent-dim:     #22c55e;
+            --accent-glow:    rgba(74,222,128,0.10);
+            --text-primary:   #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --border:         #1a241a;
+            --border-active:  #4ade80;
+            --font-mono:      'Share Tech Mono', 'Courier New', monospace;
+            --font-display:   'Rajdhani', sans-serif;
+        }
+        html, body { min-height: 100vh; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; line-height: 1.6; }
+
+        /* ── NAV ── */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav .brand { color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; text-decoration: none; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        nav .spacer { flex: 1; }
+
+        /* ── LAYOUT ── */
+        .page-wrap { max-width: 900px; margin: 0 auto; padding: 32px 16px 64px; }
+
+        /* ── HERO CARD ── */
+        .hero-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 32px;
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        .avatar-ring {
+            flex-shrink: 0;
+            width: 96px; height: 96px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            background: var(--bg-secondary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .hero-info { flex: 1; }
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+        .hero-handle { color: var(--accent); font-size: 0.8rem; margin: 4px 0 8px; letter-spacing: 1px; }
+        .hero-title { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag {
+            background: var(--accent-glow);
+            border: 1px solid var(--border-active);
+            color: var(--accent);
+            border-radius: 3px;
+            padding: 2px 10px;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+        }
+        .hero-meta {
+            display: flex; flex-direction: column; gap: 4px;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+        .meta-item { color: var(--text-muted); font-size: 0.7rem; text-align: right; }
+        .meta-item span { color: var(--text-secondary); }
+
+        /* ── SECTION ── */
+        .section { margin-bottom: 24px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header .label {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+        .section-header .line { flex: 1; height: 1px; background: var(--border); }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .card:hover { border-color: rgba(74,222,128,0.3); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+        .card-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        .card-org { color: var(--accent); font-size: 0.8rem; margin-top: 2px; }
+        .card-date { color: var(--text-muted); font-size: 0.7rem; white-space: nowrap; flex-shrink: 0; }
+        .card-location { color: var(--text-muted); font-size: 0.72rem; margin-top: 2px; }
+        .card-body { color: var(--text-secondary); font-size: 0.78rem; margin-top: 10px; line-height: 1.7; }
+        .card-body ul { padding-left: 16px; }
+        .card-body li { margin-bottom: 4px; }
+
+        /* ── SKILLS ── */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-pill {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 4px 14px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+        .skill-pill.highlight { border-color: rgba(74,222,128,0.4); color: var(--accent); }
+
+        /* ── PLACES ── */
+        .places-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+        .place-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 16px;
+            text-align: center;
+        }
+        .place-card .flag { font-size: 1.8rem; margin-bottom: 8px; }
+        .place-card .place-name { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--text-primary); }
+        .place-card .place-note { color: var(--text-muted); font-size: 0.65rem; margin-top: 4px; }
+
+        /* ── DRONE GALLERY ── */
+        .drone-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+        .drone-slot {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border-active);
+            border-radius: 4px;
+            aspect-ratio: 16/10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .drone-slot:hover { border-color: var(--accent); background: var(--accent-glow); }
+        .drone-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+        .drone-slot .slot-label { font-size: 1.5rem; margin-bottom: 6px; }
+        .drone-slot .slot-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.7);
+            color: var(--accent);
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            text-align: center;
+        }
+
+        /* ── LINKS ── */
+        .links-row { display: flex; flex-wrap: wrap; gap: 10px; }
+        .link-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .link-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ── EDIT NOTE ── */
+        .edit-note {
+            background: rgba(74,222,128,0.04);
+            border: 1px solid rgba(74,222,128,0.2);
+            border-radius: 4px;
+            padding: 10px 16px;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+        }
+        .edit-note span { color: var(--accent); }
+
+        @media (max-width: 600px) {
+            .hero-card { flex-direction: column; }
+            .hero-meta { align-items: flex-start; }
+            .card-top { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="brand" href="index.html">MAE</a>
+    <a class="active" href="profile.html">PROFILE</a>
+    <a href="megacorp.html">MEGACORP</a>
+    <a href="dronescope.html">DRONESCOPE</a>
+    <div class="spacer"></div>
+    <span style="color:var(--text-muted);font-size:0.65rem;">NIAGARA COUNTY, WNY</span>
+</nav>
+
+<div class="page-wrap">
+
+    <!-- ── HERO ── -->
+    <div class="hero-card">
+        <div class="avatar-ring">&#x1F9D1;&#x200D;&#x1F4BB;</div>
+        <div class="hero-info">
+            <div class="hero-name"><!-- YOUR FULL NAME HERE --><span style="color:var(--text-muted);">Commander</span> combat1011</div>
+            <div class="hero-handle">@combat1011 · github.com/combat1011</div>
+            <div class="hero-title">Veteran · Drone Operator · AI Systems Builder · Niagara County, WNY</div>
+            <div class="hero-tags">
+                <span class="tag">VETERAN-OWNED</span>
+                <span class="tag">FAA PART 107</span>
+                <span class="tag">AI / ML</span>
+                <span class="tag">DRONE OPS</span>
+                <span class="tag">WNY</span>
+            </div>
+        </div>
+        <div class="hero-meta">
+            <div class="meta-item">Location <span>Niagara County, NY</span></div>
+            <div class="meta-item">Based in <span>Western New York</span></div>
+            <div class="meta-item">Status <span style="color:var(--accent);">ACTIVE</span></div>
+        </div>
+    </div>
+
+    <div class="edit-note">
+        <span>// EDIT MODE</span> — Replace placeholder text with your real data. Search for <span>/* YOUR ... HERE */</span> comments.
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">ABOUT</span>
+            <div class="line"></div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <!-- YOUR BIO HERE — 2-4 sentences -->
+                Veteran and builder based in Niagara County, Western New York.
+                Founder of DroneScope WNY — veteran-owned drone operations and precision agriculture platform.
+                Creator of MAE (Modular Adaptive Entity) — a personal AI co-pilot system built on Claude.
+                Focused on drone technology, AI integration, community education, and veteran-led enterprise in WNY.
+            </div>
+        </div>
+    </div>
+
+    <!-- ── EXPERIENCE ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">EXPERIENCE</span>
+            <div class="line"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div>
+                    <div class="card-title">Founder &amp; Chief Drone Operator</div>
+                    <div class="card-org">DroneScope WNY</div>
+                    <div class="card-location">Niagara County, NY · Veteran-Owned</div>
+                </div>
+                <div class="card-date"><!-- START DATE --> 2024 — Present</div>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Aerial photography, mapping, and precision agriculture services across Western New York</li>
+                    <li>FAA Part 107 certified drone operations</li>
+                    <li>Niagara County aerial survey and documentation</li>
+                    <li><!-- ADD MORE DETAILS --></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div>
+                    <div class="card-title">AI Systems Architect</div>
+                    <div class="card-org">MAE MEGAcorp (Personal / Open Source)</div>
+                    <div class="card-location">Remote · WNY</div>
+                </div>
+                <div class="card-date">2024 — Present</div>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Designed and built MAE — Modular Adaptive Entity AI co-pilot on Anthropic Claude</li>
+                    <li>Developed Java Spring Boot + Python Flask tactical interfaces</li>
+                    <li>Built MAE.OpenClaw: offline local LLM replacement using Ollama</li>
+                    <li>Progressive Web App (PWA) with iPhone support and persistent memory</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div>
+                    <div class="card-title"><!-- JOB TITLE --></div>
+                    <div class="card-org"><!-- EMPLOYER / UNIT --></div>
+                    <div class="card-location"><!-- LOCATION --></div>
+                </div>
+                <div class="card-date"><!-- DATES --></div>
+            </div>
+            <div class="card-body"><!-- YOUR MILITARY / WORK HISTORY HERE --></div>
+        </div>
+
+    </div>
+
+    <!-- ── EDUCATION ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">EDUCATION</span>
+            <div class="line"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div>
+                    <div class="card-title"><!-- DEGREE / PROGRAM --></div>
+                    <div class="card-org"><!-- SCHOOL NAME --></div>
+                    <div class="card-location"><!-- LOCATION --></div>
+                </div>
+                <div class="card-date"><!-- YEARS --></div>
+            </div>
+            <div class="card-body"><!-- FIELD OF STUDY, HONORS, NOTES --></div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div>
+                    <div class="card-title"><!-- DEGREE / PROGRAM --></div>
+                    <div class="card-org"><!-- SCHOOL NAME --></div>
+                    <div class="card-location"><!-- LOCATION --></div>
+                </div>
+                <div class="card-date"><!-- YEARS --></div>
+            </div>
+            <div class="card-body"><!-- FIELD OF STUDY, HONORS, NOTES --></div>
+        </div>
+
+    </div>
+
+    <!-- ── SKILLS ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">SKILLS</span>
+            <div class="line"></div>
+        </div>
+        <div class="card">
+            <div class="skills-grid">
+                <span class="skill-pill highlight">Drone Operations</span>
+                <span class="skill-pill highlight">FAA Part 107</span>
+                <span class="skill-pill highlight">Aerial Photography</span>
+                <span class="skill-pill highlight">Precision Agriculture</span>
+                <span class="skill-pill highlight">AI Systems</span>
+                <span class="skill-pill highlight">Claude / Anthropic API</span>
+                <span class="skill-pill">Java · Spring Boot</span>
+                <span class="skill-pill">Python · Flask</span>
+                <span class="skill-pill">WebSocket / STOMP</span>
+                <span class="skill-pill">PWA / Service Workers</span>
+                <span class="skill-pill">GitHub Pages</span>
+                <span class="skill-pill">Railway · Cloud Deploy</span>
+                <span class="skill-pill">Ollama / Local LLM</span>
+                <span class="skill-pill">Leadership</span>
+                <span class="skill-pill">Veteran</span>
+                <!-- ADD MORE SKILLS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ── PLACES ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">PLACES I'VE BEEN</span>
+            <div class="line"></div>
+        </div>
+        <div class="places-grid">
+            <div class="place-card">
+                <div class="flag">🗽</div>
+                <div class="place-name">Niagara County, NY</div>
+                <div class="place-note">HOME BASE · WNY</div>
+            </div>
+            <div class="place-card">
+                <div class="flag">🌊</div>
+                <div class="place-name">Niagara Falls</div>
+                <div class="place-note">AERIAL OPS SITE</div>
+            </div>
+            <!-- ADD PLACES BELOW — copy this block -->
+            <div class="place-card" style="border-style:dashed;">
+                <div class="flag">📍</div>
+                <div class="place-name"><!-- PLACE NAME --></div>
+                <div class="place-note"><!-- NOTE --></div>
+            </div>
+            <div class="place-card" style="border-style:dashed;">
+                <div class="flag">📍</div>
+                <div class="place-name"><!-- PLACE NAME --></div>
+                <div class="place-note"><!-- NOTE --></div>
+            </div>
+            <div class="place-card" style="border-style:dashed;">
+                <div class="flag">📍</div>
+                <div class="place-name"><!-- PLACE NAME --></div>
+                <div class="place-note"><!-- NOTE --></div>
+            </div>
+            <div class="place-card" style="border-style:dashed;">
+                <div class="flag">📍</div>
+                <div class="place-name"><!-- PLACE NAME --></div>
+                <div class="place-note"><!-- NOTE --></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── DRONE PHOTO GALLERY ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">NIAGARA COUNTY — AERIAL</span>
+            <div class="line"></div>
+        </div>
+        <p style="color:var(--text-muted);font-size:0.7rem;margin-bottom:14px;letter-spacing:0.5px;">
+            // To add drone photos: replace the src="" on each &lt;img&gt; tag, or drop image files into docs/img/drone/ and update paths.
+            Google Drive: use File &gt; Share &gt; "Anyone with link" then copy the file ID from the URL.
+        </p>
+        <div class="drone-grid">
+            <div class="drone-slot">
+                <!-- <img src="img/drone/niagara-01.jpg" alt="Niagara aerial 1"> -->
+                <div class="slot-label">🚁</div>
+                <div>DRONE PHOTO 01</div>
+                <div class="slot-caption">NIAGARA COUNTY · WNY</div>
+            </div>
+            <div class="drone-slot">
+                <!-- <img src="img/drone/niagara-02.jpg" alt="Niagara aerial 2"> -->
+                <div class="slot-label">🚁</div>
+                <div>DRONE PHOTO 02</div>
+                <div class="slot-caption">NIAGARA FALLS · NY</div>
+            </div>
+            <div class="drone-slot">
+                <!-- <img src="img/drone/niagara-03.jpg" alt="Niagara aerial 3"> -->
+                <div class="slot-label">🚁</div>
+                <div>DRONE PHOTO 03</div>
+                <div class="slot-caption">WNY FARMLAND</div>
+            </div>
+            <div class="drone-slot">
+                <!-- <img src="img/drone/niagara-04.jpg" alt="Niagara aerial 4"> -->
+                <div class="slot-label">🚁</div>
+                <div>DRONE PHOTO 04</div>
+                <div class="slot-caption">LOCKPORT · NY</div>
+            </div>
+            <div class="drone-slot">
+                <!-- <img src="img/drone/niagara-05.jpg" alt="Niagara aerial 5"> -->
+                <div class="slot-label">🚁</div>
+                <div>DRONE PHOTO 05</div>
+                <div class="slot-caption">LAKE ONTARIO</div>
+            </div>
+            <div class="drone-slot">
+                <!-- <img src="img/drone/niagara-06.jpg" alt="Niagara aerial 6"> -->
+                <div class="slot-label">🚁</div>
+                <div>DRONE PHOTO 06</div>
+                <div class="slot-caption">NIAGARA COUNTY · WNY</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── PROJECTS ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">PROJECTS</span>
+            <div class="line"></div>
+        </div>
+        <div class="links-row">
+            <a class="link-btn" href="index.html">MAE TACTICAL INTERFACE</a>
+            <a class="link-btn" href="megacorp.html">MAE MEGACORP</a>
+            <a class="link-btn" href="dronescope.html">DRONESCOPE WNY</a>
+            <a class="link-btn" href="https://github.com/combat1011" target="_blank">GITHUB</a>
+            <a class="link-btn" href="https://github.com/combat1011/My-Autonomous-Entity" target="_blank">MAE PROTOCOL</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

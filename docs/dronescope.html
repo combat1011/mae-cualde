@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4ade80">
+    <title>DroneScope WNY — Veteran-Owned Aerial Operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg-primary:     #0a0c0a;
+            --bg-secondary:   #111411;
+            --bg-card:        #131613;
+            --accent:         #4ade80;
+            --accent-glow:    rgba(74,222,128,0.10);
+            --text-primary:   #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --border:         #1a241a;
+            --border-active:  #4ade80;
+            --font-mono:      'Share Tech Mono', 'Courier New', monospace;
+            --font-display:   'Rajdhani', sans-serif;
+        }
+        html, body { min-height: 100vh; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; line-height: 1.6; }
+
+        /* ── NAV ── */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: sticky; top: 0; z-index: 100;
+        }
+        nav .brand { color: var(--accent); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; text-decoration: none; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.75rem; letter-spacing: 1px; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        nav .spacer { flex: 1; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 64px 24px 48px;
+            border-bottom: 1px solid var(--border);
+            background:
+                radial-gradient(ellipse 60% 40% at 50% 0%, rgba(74,222,128,0.06) 0%, transparent 70%),
+                var(--bg-primary);
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-block;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            padding: 4px 16px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
+        .hero-logo {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .hero-title span { color: var(--accent); }
+        .hero-sub { color: var(--text-secondary); font-size: 0.82rem; letter-spacing: 1px; margin-bottom: 24px; max-width: 420px; }
+        .hero-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: var(--accent); color: #000; border: none; border-radius: 3px; padding: 10px 24px; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; cursor: pointer; text-decoration: none; }
+        .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 3px; padding: 10px 24px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 2px; cursor: pointer; text-decoration: none; }
+
+        /* ── LAYOUT ── */
+        .page-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 16px 80px; }
+
+        /* ── SECTION ── */
+        .section { margin-bottom: 48px; }
+        .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .section-header .label { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: 2px; color: var(--accent); }
+        .section-header .line { flex: 1; height: 1px; background: var(--border); }
+
+        /* ── SERVICES GRID ── */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 20px;
+            transition: border-color 0.2s;
+        }
+        .service-card:hover { border-color: rgba(74,222,128,0.4); }
+        .service-icon { font-size: 1.8rem; margin-bottom: 10px; }
+        .service-name { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+        .service-desc { color: var(--text-secondary); font-size: 0.74rem; line-height: 1.7; }
+
+        /* ── PHOTO GALLERY ── */
+        .gallery-note {
+            background: rgba(74,222,128,0.04);
+            border: 1px solid rgba(74,222,128,0.2);
+            border-radius: 4px;
+            padding: 10px 16px;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .gallery-note span { color: var(--accent); }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+        .gallery-slot {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border-active);
+            border-radius: 4px;
+            aspect-ratio: 4/3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .gallery-slot:hover { border-color: var(--accent); background: var(--accent-glow); }
+        .gallery-slot img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+        .gallery-slot .slot-icon { font-size: 2rem; margin-bottom: 8px; }
+        .gallery-slot .slot-text { font-size: 0.65rem; }
+        .gallery-slot .caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.75);
+            color: var(--accent);
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            padding: 5px 10px;
+            text-align: center;
+        }
+
+        /* ── FEATURED LARGE ── */
+        .gallery-featured {
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border-active);
+            border-radius: 4px;
+            aspect-ratio: 16/7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-featured:hover { background: var(--accent-glow); }
+        .gallery-featured img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+        .gallery-featured .caption { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); color: var(--accent); font-size: 0.7rem; letter-spacing: 1px; padding: 8px 16px; }
+
+        /* ── CERT / STATS ── */
+        .certs-row { display: flex; flex-wrap: wrap; gap: 12px; }
+        .cert-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 14px 20px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .cert-icon { font-size: 1.6rem; }
+        .cert-title { font-family: var(--font-display); font-weight: 700; font-size: 0.88rem; }
+        .cert-sub { color: var(--text-muted); font-size: 0.65rem; margin-top: 2px; }
+
+        /* ── FOOTER ── */
+        footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.68rem; letter-spacing: 1px; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="brand" href="index.html">MAE</a>
+    <a href="profile.html">PROFILE</a>
+    <a href="megacorp.html">MEGACORP</a>
+    <a class="active" href="dronescope.html">DRONESCOPE</a>
+    <div class="spacer"></div>
+    <span style="color:var(--text-muted);font-size:0.65rem;">NIAGARA COUNTY, WNY</span>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+    <div class="hero-badge">FAA PART 107 · VETERAN-OWNED · WNY</div>
+    <div class="hero-logo">🚁</div>
+    <div class="hero-title">Drone<span>Scope</span> WNY</div>
+    <div class="hero-sub">Veteran-owned drone operations &amp; precision agriculture. Niagara County, Western New York.</div>
+    <div class="hero-cta-row">
+        <a class="btn-primary" href="mailto:<!-- YOUR EMAIL HERE -->">REQUEST A FLIGHT</a>
+        <a class="btn-outline" href="megacorp.html">ABOUT MEGACORP</a>
+    </div>
+</div>
+
+<div class="page-wrap">
+
+    <!-- ── CERTIFICATIONS ── -->
+    <div class="section">
+        <div class="certs-row">
+            <div class="cert-badge">
+                <div class="cert-icon">🏅</div>
+                <div>
+                    <div class="cert-title">FAA Part 107 Certified</div>
+                    <div class="cert-sub">COMMERCIAL UAS OPERATIONS</div>
+                </div>
+            </div>
+            <div class="cert-badge">
+                <div class="cert-icon">🎖️</div>
+                <div>
+                    <div class="cert-title">Veteran-Owned Business</div>
+                    <div class="cert-sub">NIAGARA COUNTY, WNY</div>
+                </div>
+            </div>
+            <div class="cert-badge">
+                <div class="cert-icon">📡</div>
+                <div>
+                    <div class="cert-title">Precision Agriculture</div>
+                    <div class="cert-sub">NDVI · MAPPING · SURVEY</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SERVICES ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">SERVICES</span>
+            <div class="line"></div>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🌾</div>
+                <div class="service-name">Precision Agriculture</div>
+                <div class="service-desc">NDVI crop health mapping, field surveys, irrigation analysis. Serving Niagara County farms and WNY agricultural operations.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📸</div>
+                <div class="service-name">Aerial Photography</div>
+                <div class="service-desc">High-resolution aerial photo and video. Real estate, events, construction progress, commercial campaigns.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🗺️</div>
+                <div class="service-name">Mapping &amp; Survey</div>
+                <div class="service-desc">Orthomosaic mapping, 3D modeling, topographic surveys. GIS-ready outputs for municipalities and developers.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔍</div>
+                <div class="service-name">Inspection</div>
+                <div class="service-desc">Infrastructure, rooftop, and utility inspections. Safe, efficient access to hard-to-reach locations without scaffolding.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🏛️</div>
+                <div class="service-name">Government &amp; Municipal</div>
+                <div class="service-desc">Emergency response support, municipal surveys, public works documentation. Niagara County and WNY region.</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎬</div>
+                <div class="service-name">Cinematic Video</div>
+                <div class="service-desc">Branded aerial cinematography for commercial clients, documentaries, and promotional content across Western New York.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── AERIAL GALLERY ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">AERIAL GALLERY — NIAGARA COUNTY</span>
+            <div class="line"></div>
+        </div>
+
+        <div class="gallery-note">
+            <span>// HOW TO ADD YOUR DRONE PHOTOS</span><br>
+            Option A: Drop image files into <span>docs/img/drone/</span> and update each &lt;img src=""&gt; tag below.<br>
+            Option B: Google Drive — Share the file publicly, get the file ID from the URL, then use:
+            <span>https://drive.google.com/uc?export=view&amp;id=FILE_ID_HERE</span> as the src.
+        </div>
+
+        <!-- Featured shot -->
+        <div class="gallery-featured">
+            <!--
+                TO ADD FEATURED PHOTO:
+                <img src="img/drone/featured.jpg" alt="Niagara County aerial">
+                OR: <img src="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID" alt="...">
+            -->
+            <div style="text-align:center;">
+                <div style="font-size:3rem;margin-bottom:12px;">🚁</div>
+                <div style="letter-spacing:2px;">FEATURED AERIAL SHOT</div>
+                <div style="font-size:0.65rem;color:var(--accent);margin-top:4px;">REPLACE WITH YOUR BEST NIAGARA COUNTY PHOTO</div>
+            </div>
+            <div class="caption">NIAGARA COUNTY — WESTERN NEW YORK · DRONESCOPE WNY</div>
+        </div>
+
+        <!-- Grid -->
+        <div class="gallery-grid">
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-01.jpg" alt="Niagara County 1"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 01</div>
+                <div class="caption">NIAGARA FALLS · NY</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-02.jpg" alt="Niagara County 2"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 02</div>
+                <div class="caption">LOCKPORT · NY</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-03.jpg" alt="Niagara County 3"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 03</div>
+                <div class="caption">LAKE ONTARIO SHORE</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-04.jpg" alt="Niagara County 4"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 04</div>
+                <div class="caption">WNY FARMLAND</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-05.jpg" alt="Niagara County 5"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 05</div>
+                <div class="caption">NIAGARA RIVER CORRIDOR</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-06.jpg" alt="Niagara County 6"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 06</div>
+                <div class="caption">NIAGARA COUNTY · WNY</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-07.jpg" alt="Niagara County 7"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 07</div>
+                <div class="caption">PRECISION AG SURVEY</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-08.jpg" alt="Niagara County 8"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 08</div>
+                <div class="caption">NIAGARA COUNTY · WNY</div>
+            </div>
+
+            <div class="gallery-slot">
+                <!-- <img src="img/drone/nc-09.jpg" alt="Niagara County 9"> -->
+                <div class="slot-icon">🚁</div>
+                <div class="slot-text">PHOTO 09</div>
+                <div class="caption">NIAGARA COUNTY · WNY</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── COVERAGE AREA ── -->
+    <div class="section">
+        <div class="section-header">
+            <span class="label">COVERAGE AREA</span>
+            <div class="line"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:6px;">📍</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.88rem;">Niagara County</div>
+                <div style="color:var(--accent);font-size:0.62rem;margin-top:2px;">PRIMARY</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:6px;">📍</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.88rem;">Erie County</div>
+                <div style="color:var(--text-muted);font-size:0.62rem;margin-top:2px;">WESTERN NY</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:6px;">📍</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.88rem;">Orleans County</div>
+                <div style="color:var(--text-muted);font-size:0.62rem;margin-top:2px;">WESTERN NY</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:6px;">🌊</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.88rem;">Niagara Falls</div>
+                <div style="color:var(--text-muted);font-size:0.62rem;margin-top:2px;">ICONIC SITES</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+                <div style="font-size:1.4rem;margin-bottom:6px;">🌾</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:0.88rem;">WNY Farmland</div>
+                <div style="color:var(--text-muted);font-size:0.62rem;margin-top:2px;">AG OPERATIONS</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    DroneScope WNY · FAA Part 107 · Veteran-Owned · Niagara County, NY ·
+    <a href="megacorp.html">MAE MEGAcorp</a> · <a href="profile.html">Commander Profile</a>
+</footer>
+
+</body>
+</html>
