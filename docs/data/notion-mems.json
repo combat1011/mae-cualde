@@ -1,115 +1,115 @@
 {
-  "synced_at": "2026-04-16T12:00:00.000Z",
-  "source": "curated",
+  "synced_at": "2026-04-16T05:47:21.460Z",
+  "source": "notion",
   "database": "mems",
   "entries": [
     {
-      "id": "mem-001",
-      "key": "commander_name",
-      "value": "Caquan \"Cue\" Palmer",
-      "category": "identity",
+      "id": "34470730-80f0-812f-bf29-de25518a2d52",
+      "key": "deploy_targets",
+      "value": "Railway (Spring Boot API), Heroku (Flask), GitHub Pages (static), iOS PWA",
+      "category": "global",
       "platform": "global",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/deploy_targets-3447073080f0812fbf29de25518a2d52",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-002",
-      "key": "github_handle",
-      "value": "combat1011",
-      "category": "platform",
-      "platform": "github",
-      "url": "https://github.com/combat1011",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "id": "34470730-80f0-8147-8c47-ffde0464fe5d",
+      "key": "commander_name",
+      "value": "Caquan Cue Palmer",
+      "category": "global",
+      "platform": "global",
+      "url": "https://www.notion.so/commander_name-3447073080f081478c47ffde0464fe5d",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-003",
+      "id": "34470730-80f0-8154-8e54-c2b6561fd336",
       "key": "linkedin_url",
       "value": "https://www.linkedin.com/in/caquan-palmer/",
-      "category": "platform",
+      "category": "linkedin",
       "platform": "linkedin",
-      "url": "https://www.linkedin.com/in/caquan-palmer/",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/linkedin_url-3447073080f081548e54c2b6561fd336",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-004",
-      "key": "mae_doctrine",
-      "value": "v8.1a \u2014 Class: TRUTH \u2014 Echo State: GOLDEN",
-      "category": "doctrine",
-      "platform": "mae",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "mem-005",
-      "key": "primary_stack",
-      "value": "Java 21 / Spring Boot 3.x, Python Flask, Vanilla JS, Anthropic Claude, Perplexity Sonar",
-      "category": "technical",
+      "id": "34470730-80f0-8171-820c-cf7f24fcb63c",
+      "key": "no_claude_attribution",
+      "value": "Never sign commits or PRs with Claude. attribution.commit and attribution.pr are both empty.",
+      "category": "global",
       "platform": "global",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/no_claude_attribution-3447073080f08171820ccf7f24fcb63c",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-006",
-      "key": "deploy_targets",
-      "value": "Railway (Spring Boot API), Heroku (Flask), GitHub Pages (static site), iOS PWA",
-      "category": "technical",
-      "platform": "global",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "mem-007",
-      "key": "drone_specs",
-      "value": "4K/60fps, 48MP+, 3-axis gimbal, 400m AGL, 12km+ range, omnidirectional avoidance",
-      "category": "equipment",
-      "platform": "drone",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "mem-008",
-      "key": "site_url",
-      "value": "https://combat1011.github.io/mae-cualde/",
-      "category": "platform",
-      "platform": "github-pages",
-      "url": "https://combat1011.github.io/mae-cualde/",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "mem-009",
+      "id": "34470730-80f0-8171-be16-cbbb0392441e",
       "key": "ai_models",
       "value": "claude-haiku-4-5-20251001 (MAE console), Perplexity sonar-pro (research)",
-      "category": "technical",
+      "category": "mae",
       "platform": "mae",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/ai_models-3447073080f08171be16cbbb0392441e",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-010",
-      "key": "no_claude_attribution",
-      "value": "Never sign commits or PRs with Claude attribution. attribution.commit and attribution.pr are both empty.",
-      "category": "doctrine",
-      "platform": "global",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "id": "34470730-80f0-8173-a586-f08f88550ad6",
+      "key": "github_handle",
+      "value": "combat1011",
+      "category": "github",
+      "platform": "github",
+      "url": "https://www.notion.so/github_handle-3447073080f08173a586f08f88550ad6",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-011",
+      "id": "34470730-80f0-8187-9169-ca4ab2f70430",
+      "key": "site_url",
+      "value": "https://combat1011.github.io/mae-cualde/",
+      "category": "github-pages",
+      "platform": "github-pages",
+      "url": "https://www.notion.so/site_url-3447073080f081879169ca4ab2f70430",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81a2-b37b-d50cc2455873",
+      "key": "mae_doctrine",
+      "value": "v8.1a - Class: TRUTH - Echo State: GOLDEN",
+      "category": "mae",
+      "platform": "mae",
+      "url": "https://www.notion.so/mae_doctrine-3447073080f081a2b37bd50cc2455873",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81cb-980f-c4ef405f9f69",
       "key": "mae_format",
-      "value": "Dark terminal aesthetic. #0a0c0a bg, #4ade80 accent. Rajdhani + Share Tech Mono. No light themes. No pastel.",
-      "category": "design",
+      "value": "Dark terminal. #0a0c0a bg, #4ade80 accent. Rajdhani + Share Tech Mono. No light themes.",
+      "category": "global",
       "platform": "global",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/mae_format-3447073080f081cb980fc4ef405f9f69",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "mem-012",
+      "id": "34470730-80f0-81d6-92b3-faf2e601279c",
+      "key": "primary_stack",
+      "value": "Java 21 / Spring Boot 3.x, Python Flask, Vanilla JS, Anthropic Claude, Perplexity Sonar",
+      "category": "global",
+      "platform": "global",
+      "url": "https://www.notion.so/primary_stack-3447073080f081d692b3faf2e601279c",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81f8-99f7-d36065e463ea",
+      "key": "drone_specs",
+      "value": "4K/60fps, 48MP+, 3-axis gimbal, 400m AGL, 12km+ range, omnidirectional avoidance",
+      "category": "drone",
+      "platform": "drone",
+      "url": "https://www.notion.so/drone_specs-3447073080f081f899f7d36065e463ea",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81fc-9f45-e0e782f653a3",
       "key": "notion_workspace",
-      "value": "Cue Palmer's \u2014 Bot: MAE-O \u2014 Internal integration",
-      "category": "platform",
+      "value": "Cue Palmers workspace - Bot: MAE-O - Internal integration",
+      "category": "notion",
       "platform": "notion",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/notion_workspace-3447073080f081fc9f45e0e782f653a3",
+      "updated": "2026-04-16T05:46:00.000Z"
     }
   ]
 }

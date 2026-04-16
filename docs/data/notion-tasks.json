@@ -1,107 +1,107 @@
 {
-  "synced_at": "2026-04-16T12:00:00.000Z",
-  "source": "curated",
+  "synced_at": "2026-04-16T05:47:21.460Z",
+  "source": "notion",
   "database": "tasks",
   "tasks": [
     {
-      "id": "task-001",
-      "title": "Personal Website Consolidation",
-      "status": "In Progress",
-      "project": "MAE Cualde",
-      "priority": "High",
-      "due": "",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "task-002",
-      "title": "Notion Database Sync Pipeline",
-      "status": "In Progress",
-      "project": "MAE Cualde",
-      "priority": "High",
-      "due": "",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "task-003",
-      "title": "Drone Gallery \u2014 Google Drive Integration",
-      "status": "In Progress",
+      "id": "34470730-80f0-812e-9528-f9d0ccfb6b52",
+      "title": "Drone Gallery — Google Drive Integration",
+      "status": "Not started",
       "project": "Aerial Intelligence",
       "priority": "Medium",
       "due": "",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/Drone-Gallery-Google-Drive-Integration-3447073080f0812e9528f9d0ccfb6b52",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "task-004",
-      "title": "MAE MegaCorp Corporate Page",
-      "status": "Done",
+      "id": "34470730-80f0-813a-84cd-f12c71c22be3",
+      "title": "Personal Website Consolidation",
+      "status": "Not started",
       "project": "MAE Cualde",
       "priority": "High",
       "due": "",
-      "url": "https://combat1011.github.io/mae-cualde/megacorp.html",
-      "updated": "2026-04-15T20:00:00.000Z"
+      "url": "https://www.notion.so/Personal-Website-Consolidation-3447073080f0813a84cdf12c71c22be3",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "task-005",
+      "id": "34470730-80f0-8168-9b0e-f2a344af8666",
       "title": "LinkedIn Profile Optimization",
-      "status": "Not Started",
+      "status": "Not started",
       "project": "Personal Brand",
       "priority": "Medium",
       "due": "",
-      "url": "https://www.linkedin.com/in/caquan-palmer/",
-      "updated": "2026-04-16T12:00:00.000Z"
+      "url": "https://www.notion.so/LinkedIn-Profile-Optimization-3447073080f081689b0ef2a344af8666",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "task-006",
-      "title": "MAE Tactical Interface \u2014 Spring Boot API",
-      "status": "Done",
+      "id": "34470730-80f0-8171-95f2-e3da621e0f77",
+      "title": "MAE Tactical Interface — Spring Boot API",
+      "status": "Not started",
       "project": "MAE Cualde",
       "priority": "High",
       "due": "",
-      "url": "",
-      "updated": "2026-04-14T10:00:00.000Z"
+      "url": "https://www.notion.so/MAE-Tactical-Interface-Spring-Boot-API-3447073080f0817195f2e3da621e0f77",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "task-007",
-      "title": "GitHub Pages Auto-Deploy from Feature Branch",
-      "status": "Done",
+      "id": "34470730-80f0-8189-b9a9-c8fbc69c3564",
+      "title": "Notion Database Sync Pipeline",
+      "status": "Not started",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "https://www.notion.so/Notion-Database-Sync-Pipeline-3447073080f08189b9a9c8fbc69c3564",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-8195-92dc-e76c0f6c14be",
+      "title": "MAE MegaCorp Corporate Page",
+      "status": "Not started",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "https://www.notion.so/MAE-MegaCorp-Corporate-Page-3447073080f0819592dce76c0f6c14be",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81b0-b962-fb3c11a6cec0",
+      "title": "MCP Connector Configuration — All Agents",
+      "status": "Not started",
+      "project": "MAE Cualde",
+      "priority": "High",
+      "due": "",
+      "url": "https://www.notion.so/MCP-Connector-Configuration-All-Agents-3447073080f081b0b962fb3c11a6cec0",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81bc-813f-c24fd36a1e9e",
+      "title": "iPhone PWA Offline-First Mode",
+      "status": "Not started",
       "project": "MAE Cualde",
       "priority": "Medium",
       "due": "",
-      "url": "",
-      "updated": "2026-04-15T20:30:00.000Z"
+      "url": "https://www.notion.so/iPhone-PWA-Offline-First-Mode-3447073080f081bc813fc24fd36a1e9e",
+      "updated": "2026-04-16T05:46:00.000Z"
     },
     {
-      "id": "task-008",
-      "title": "Drone Shot Upload \u2014 Batch 1",
-      "status": "Not Started",
+      "id": "34470730-80f0-81ca-8d96-e3472574a788",
+      "title": "GitHub Pages Auto-Deploy from Feature Branch",
+      "status": "Not started",
+      "project": "MAE Cualde",
+      "priority": "Medium",
+      "due": "",
+      "url": "https://www.notion.so/GitHub-Pages-Auto-Deploy-from-Feature-Branch-3447073080f081ca8d96e3472574a788",
+      "updated": "2026-04-16T05:46:00.000Z"
+    },
+    {
+      "id": "34470730-80f0-81ec-a1bb-c7d4409df8ef",
+      "title": "Drone Shot Upload — Batch 1",
+      "status": "Not started",
       "project": "Aerial Intelligence",
       "priority": "Medium",
       "due": "",
-      "url": "",
-      "updated": "2026-04-16T12:00:00.000Z"
-    },
-    {
-      "id": "task-009",
-      "title": "MCP Connector Configuration \u2014 All Agents",
-      "status": "Done",
-      "project": "MAE Cualde",
-      "priority": "High",
-      "due": "",
-      "url": "",
-      "updated": "2026-04-15T20:30:00.000Z"
-    },
-    {
-      "id": "task-010",
-      "title": "iPhone PWA Offline-First Mode",
-      "status": "Done",
-      "project": "MAE Cualde",
-      "priority": "Medium",
-      "due": "",
-      "url": "",
-      "updated": "2026-04-14T08:00:00.000Z"
+      "url": "https://www.notion.so/Drone-Shot-Upload-Batch-1-3447073080f081eca1bbc7d4409df8ef",
+      "updated": "2026-04-16T05:46:00.000Z"
     }
   ]
 }

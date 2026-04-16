@@ -62,9 +62,16 @@ All connectors are configured in `.mcp.json` and `~/.claude/settings.json`.
 
 ### Notion
 - MCP server: `@notionhq/notion-mcp-server`
-- Env: `NOTION_API_KEY` must be set
-- 4 databases: Profile, Drone Shots, Tasks, Platform MEMs
+- Env: `NOTION_API_KEY` must be set (`ntn_...` token)
+- Bot name: `MAE-O` · Workspace: `Cue Palmer's`
+- Parent page: Omnilink Documentation — Knowledge Stack Reference
+- 4 databases (all live, seeded):
+  - Profile DB:  `34470730-80f0-81fc-baed-c59ba9fdc059`
+  - Drone DB:    `34470730-80f0-8174-8e3d-dd77b0dcb425`
+  - Tasks DB:    `34470730-80f0-813b-aa93-e425836c0974`
+  - MEMs DB:     `34470730-80f0-817d-b125-ec6d217d8e55`
 - Sync script: `node scripts/notion-sync.js`
+- Config: `.notion.json` (gitignored — has real API key + DB IDs)
 - Output: `docs/data/notion-*.json`
 
 ### Google Drive
@@ -90,11 +97,17 @@ All connectors are configured in `.mcp.json` and `~/.claude/settings.json`.
 - Never push to `main` without explicit instruction
 
 ## Notion Sync (local, no GitHub secrets needed)
+`.notion.json` is configured with real API key and all 4 database IDs.
 ```bash
-cp .notion.example.json .notion.json   # once
-# fill in api_key + db IDs
 node scripts/notion-sync.js            # sync all 4 databases
 git add docs/data && git push
+```
+To re-sync a single database:
+```bash
+node scripts/notion-sync.js --profile
+node scripts/notion-sync.js --drone
+node scripts/notion-sync.js --tasks
+node scripts/notion-sync.js --mems
 ```
 
 ## Drone Shots (Google Drive)

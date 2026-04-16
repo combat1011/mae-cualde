@@ -1,73 +1,91 @@
 {
-  "synced_at": "2026-04-16T12:00:00.000Z",
-  "source": "curated",
+  "synced_at": "2026-04-16T05:47:21.460Z",
+  "source": "notion",
   "database": "drone",
   "shots": [
     {
-      "id": "shot-001",
+      "id": "34470730-80f0-817f-b3fb-f57ffb7e273c",
       "title": "Landscape Overview",
       "drive_id": "",
       "type": "video",
-      "categories": ["landscape", "cinematic"],
-      "description": "Wide aerial sweep \u2014 panoramic landscape and horizon line at golden hour",
+      "categories": [
+        "landscape",
+        "cinematic"
+      ],
+      "description": "",
       "order": 1,
       "published": true,
-      "url": ""
+      "url": "https://www.notion.so/Landscape-Overview-3447073080f0817fb3fbf57ffb7e273c"
     },
     {
-      "id": "shot-002",
+      "id": "34470730-80f0-81c5-87be-e56733f64cb0",
       "title": "Property Flyover",
       "drive_id": "",
       "type": "video",
-      "categories": ["real-estate", "commercial"],
-      "description": "Real estate aerial walk-around with full property boundary coverage",
+      "categories": [
+        "real-estate",
+        "commercial"
+      ],
+      "description": "",
       "order": 2,
       "published": true,
-      "url": ""
+      "url": "https://www.notion.so/Property-Flyover-3447073080f081c587bee56733f64cb0"
     },
     {
-      "id": "shot-003",
+      "id": "34470730-80f0-81b2-be0a-c274586004aa",
       "title": "Golden Hour Stills",
       "drive_id": "",
       "type": "photo",
-      "categories": ["landscape", "photography"],
-      "description": "High-resolution sunset aerial photography \u2014 48MP RAW capture",
+      "categories": [
+        "landscape",
+        "photography"
+      ],
+      "description": "",
       "order": 3,
       "published": true,
-      "url": ""
+      "url": "https://www.notion.so/Golden-Hour-Stills-3447073080f081b2be0ac274586004aa"
     },
     {
-      "id": "shot-004",
+      "id": "34470730-80f0-8186-a4af-dd3bb5d08ba7",
       "title": "Cinematic Pan",
       "drive_id": "",
       "type": "video",
-      "categories": ["cinematic", "landscape"],
-      "description": "Slow cinematic pan at altitude with 3-axis gimbal stabilization",
+      "categories": [
+        "cinematic",
+        "landscape"
+      ],
+      "description": "",
       "order": 4,
       "published": true,
-      "url": ""
+      "url": "https://www.notion.so/Cinematic-Pan-3447073080f08186a4afdd3bb5d08ba7"
     },
     {
-      "id": "shot-005",
+      "id": "34470730-80f0-8139-bee0-c128c292238a",
       "title": "Top-Down Property",
       "drive_id": "",
       "type": "photo",
-      "categories": ["real-estate", "photography"],
-      "description": "Bird's-eye property documentation \u2014 boundary and lot mapping",
+      "categories": [
+        "real-estate",
+        "photography"
+      ],
+      "description": "",
       "order": 5,
       "published": true,
-      "url": ""
+      "url": "https://www.notion.so/Top-Down-Property-3447073080f08139bee0c128c292238a"
     },
     {
-      "id": "shot-006",
+      "id": "34470730-80f0-818a-b4cb-fe314cd40819",
       "title": "Reveal Shot",
       "drive_id": "",
       "type": "video",
-      "categories": ["cinematic", "commercial"],
-      "description": "Dramatic reveal ascent from ground level to full aerial view",
+      "categories": [
+        "cinematic",
+        "commercial"
+      ],
+      "description": "",
       "order": 6,
       "published": true,
-      "url": ""
+      "url": "https://www.notion.so/Reveal-Shot-3447073080f0818ab4cbfe314cd40819"
     }
   ]
 }
